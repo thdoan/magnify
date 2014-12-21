@@ -4,16 +4,7 @@ Magnify JS is a simple, lightweight jQuery plugin that adds a magnifying glass s
 
 ### [__See a demo &raquo;__](http://thdoan.github.io/magnify/demo.html)
 
-## Options
-
-Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to `data-magnify-` (e.g., `data-magnify-src="..."`).
-
-Name    | Type   | Default | Description
---------| ------ | ------- | -----------
-`speed` | number | 100     | The fade-in/out animation speed in ms when the lens moves on/off the image.
-`src`   | string | ''      | The URI of the large image that will be shown in the magnifying lens.
-
-## Installation
+## Getting Started
 
 ### Step 1: Link the required files
 
@@ -59,3 +50,16 @@ $(document).ready(function() {
 });
 </script>
 ```
+
+## Options
+
+Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to `data-magnify-` (e.g., `data-magnify-src="..."`).
+
+Name    | Type   | Default | Description
+--------| ------ | ------- | -----------
+`speed` | number | 100     | The fade-in/out animation speed in ms when the lens moves on/off the image.
+`src`   | string | ''      | The URI of the large image that will be shown in the magnifying lens.
+
+## Installation
+
+You can manually download the package from here or install Magnify JS through the npm package manager by issuing the command `npm install magnify`.
