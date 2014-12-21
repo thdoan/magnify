@@ -2,6 +2,8 @@
 
 Magnify JS is a simple, lightweight jQuery plugin that adds a magnifying glass style zoom functionality to images. It is a useful feature to have for product images on ecommerce websites, or if you just want people to be able to zoom into an image without spawning additional overlays or popup windows that may cover your content.
 
+### [__See a demo &raquo;__](http://thdoan.github.io/magnify/demo.html)
+
 ## Options
 
 Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to `data-magnify-` (e.g., `data-magnify-src="..."`).
@@ -55,5 +57,3 @@ $(document).ready(function() {
 });
 </script>
 ```
-
-### [__See a demo &raquo;__](http://thdoan.github.io/magnify/demo.html)
