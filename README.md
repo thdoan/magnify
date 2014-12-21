@@ -37,6 +37,8 @@ Assign the `magnify-image` class to the small image. The URI to the large image 
 
 ### Step 3: Call the .magnify() function
 
+Make sure this comes after the two required JavaScript files from Step 1 are loaded.
+
 ```html
 <script>
 $(document).ready(function() {
