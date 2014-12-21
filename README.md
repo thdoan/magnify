@@ -27,7 +27,7 @@ You have complete control over the style and size of the lens by modifying `magn
 
 ### Step 2: Add the HTML
 
-Assign the `magnify-image` class to the small image. The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the `src` option when calling the `.magnify()` function.
+Assign the `magnify-image` class to the small image. The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the `src` option when calling the `.magnify()` function. Assign the `magnify` class to the small image's parent element.
 
 ```html
 <div class="magnify">
