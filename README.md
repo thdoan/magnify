@@ -56,4 +56,4 @@ $(document).ready(function() {
 </script>
 ```
 
-[__See a demo &raquo;__](http://thdoan.github.io/magnify/demo.html)
+### [__See a demo &raquo;__](http://thdoan.github.io/magnify/demo.html)
