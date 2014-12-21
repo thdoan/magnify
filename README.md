@@ -1,6 +1,6 @@
 # Magnify JS
 
-Magnify JS is a simple, lightweight jQuery plugin that adds a magnifying glass style zoom functionality to images. It is a useful feature to have for product images on ecommerce websites, or if you just want people to be able to zoom into an image without spawning additional overlays or popup windows that cover your content.
+Magnify JS is a simple, lightweight jQuery plugin that adds a magnifying glass style zoom functionality to images. It is a useful feature to have for product images on ecommerce websites, or if you just want people to be able to zoom into an image without spawning additional overlays or popup windows that may cover your content.
 
 ## Options
 
@@ -21,15 +21,15 @@ Name    | Type   | Default | Description
 <script src="js/jquery.magnify.js"></script>
 ```
 
-You have complete control over the style and size of the lens by modifying `magnify.css`. It is recommended to load the two JavaScript files at the bottom just before the closing &lt;/body&gt; tag if possible.
+You have complete control over the style and size of the lens by modifying `magnify.css`. It is recommended to load the two JavaScript files at the bottom just before the closing `&lt;/body&gt;` tag if possible.
 
 ### Step 2: Add the HTML
 
-Assign the `magnify-image` class to the small image. The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the 'src' option when calling the `.magnify()` function.
+Assign the `magnify-image` class to the small image. The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the `src` option when calling the `.magnify()` function.
 
 ```html
 <div class="magnify">
-  <img src="images/watch.jpg" alt="" width="319" height="570" class="magnify-image" data-magnify-src="images/watch-large.jpg">
+  <img src="images/product.jpg" class="magnify-image" data-magnify-src="images/product-large.jpg">
 </div>
 ```
 
@@ -43,16 +43,17 @@ $(document).ready(function() {
 </script>
 ```
 
-Calling the `.magnify()` function with options:
+Calling the .magnify() function with options:
 
 ```html
 <script>
 $(document).ready(function() {
   $('.magnify').magnify({
     speed: 200,
-    src: 'images/watch-large.jpg'
+    src: 'images/product-large.jpg'
   });
 });
 </script>
+```
 
 [__See a demo &raquo;__](http://thdoan.github.io/magnify/demo.html)
