@@ -1,7 +1,7 @@
 {
   "name": "magnify",
   "title": "jQuery Magnify",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "A simple, lightweight jQuery magnifying glass zoom plugin.",
   "keywords": [
     "jquery-plugin",
