@@ -4,7 +4,7 @@ Magnify JS is a simple, lightweight jQuery plugin that adds a magnifying glass s
 
 ## Options
 
-Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to `data-magnify-` (e.g., `data-magnify-src="large-image.jpg"`).
+Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to `data-magnify-` (e.g., `data-magnify-src="..."`).
 
 Name    | Type   | Default | Description
 --------| ------ | ------- | -----------
@@ -21,7 +21,7 @@ Name    | Type   | Default | Description
 <script src="js/jquery.magnify.js"></script>
 ```
 
-You have complete control over the style and size of the lens by modifying `magnify.css`. It is recommended to load the two JavaScript files at the bottom just before the closing `&lt;/body&gt;` tag if possible.
+You have complete control over the style and size of the lens by modifying `magnify.css`. It is recommended to load the two JavaScript files at the bottom just before the closing `</body>` tag if possible.
 
 ### Step 2: Add the HTML
 
@@ -29,11 +29,11 @@ Assign the `magnify-image` class to the small image. The URI to the large image 
 
 ```html
 <div class="magnify">
-  <img src="images/product.jpg" class="magnify-image" data-magnify-src="images/product-large.jpg">
+  <img src="/images/product.jpg" class="magnify-image" data-magnify-src="/images/product-large.jpg">
 </div>
 ```
 
-### Step 3: Call the `.magnify()` function
+### Step 3: Call the .magnify() function
 
 ```html
 <script>
@@ -43,14 +43,14 @@ $(document).ready(function() {
 </script>
 ```
 
-Calling the .magnify() function with options:
+Calling the `.magnify()` function with options:
 
 ```html
 <script>
 $(document).ready(function() {
   $('.magnify').magnify({
     speed: 200,
-    src: 'images/product-large.jpg'
+    src: '/images/product-large.jpg'
   });
 });
 </script>
