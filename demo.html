@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>jQuery Magnify Demo</title>
+<meta name="author" content="Tom Doan">
+<link rel="stylesheet" href="css/magnify.css">
+<style>
+/* Demo CSS */
+html {
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+body {
+  width: 100%;
+  height: 100%;
+  display: table-cell;
+  overflow: hidden;
+  padding: 2em;
+  text-align: center;
+  vertical-align: middle;
+}
+body > div {
+  display: inline-block;
+}
+</style>
+</head>
+<body>
+
+<div class="magnify">
+	<!-- This is the small image; the URL to the large image can be placed in the
+	     data-magnify-src attribute (as shown below) or passed as an option called
+	     "src" when calling the .magnify() function. -->
+	<img src="images/watch.jpg" alt="" width="319" height="570" class="magnify-image" data-magnify-src="images/watch-large.jpg">
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="js/jquery.magnify.js"></script>
+<script>
+$(document).ready(function() {
+  // Initiate magnification powers
+  $('.magnify').magnify();
+});
+</script>
+
+</body>
+</html>
