@@ -16,14 +16,12 @@ Magnify JS is a simple, lightweight jQuery plugin that adds a magnifying glass s
 
 You have complete control over the style and size of the lens by modifying `magnify.css`. It is recommended to load the two JavaScript files at the bottom just before the closing `</body>` tag if possible.
 
-### Step 2: Add the HTML
+### Step 2: Specify the large image
 
-Assign the `magnify-image` class to the small image. The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the `src` option when calling the `.magnify()` function. Assign the `magnify` class to the small image's parent element.
+The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the `src` option when calling the `.magnify()` function.
 
 ```html
-<div class="magnify">
-  <img src="/images/product.jpg" class="magnify-image" data-magnify-src="/images/product-large.jpg">
-</div>
+<img src="/images/product.jpg" data-magnify-src="/images/product-large.jpg">
 ```
 
 ### Step 3: Call the .magnify() function
@@ -33,7 +31,7 @@ Make sure this comes after the two required JavaScript files from Step 1 are loa
 ```html
 <script>
 $(document).ready(function() {
-  $('.magnify').magnify();
+  $('img').magnify();
 });
 </script>
 ```
@@ -43,8 +41,8 @@ Calling the `.magnify()` function with options:
 ```html
 <script>
 $(document).ready(function() {
-  $('.magnify').magnify({
-    speed: 200,
+  $('img').magnify({
+    speed: 100,
     src: '/images/product-large.jpg'
   });
 });
@@ -57,7 +55,7 @@ Options can be set using data attributes or passed in an `options` JavaScript ob
 
 Name    | Type   | Default | Description
 --------| ------ | ------- | -----------
-`speed` | number | 100     | The fade-in/out animation speed in ms when the lens moves on/off the image.
+`speed` | number | 200     | The fade-in/out animation speed in ms when the lens moves on/off the image.
 `src`   | string | ''      | The URI of the large image that will be shown in the magnifying lens.
 
 ## Installation
