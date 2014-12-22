@@ -53,13 +53,17 @@
 <p>You have complete control over the style and size of the lens by modifying <code>magnify.css</code>. It is recommended to load the two JavaScript files at the bottom just before the closing <code>&lt;/body&gt;</code> tag if possible.</p>
 
 <h3>
-<a id="step-2-add-the-html" class="anchor" href="#step-2-add-the-html" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 2: Add the HTML</h3>
+<a id="step-2-specify-the-large-image" class="anchor" href="#step-2-specify-the-large-image" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 2: Specify the large image</h3>
 
-<p>Assign the <code>magnify-image</code> class to the small image. The URI to the large image can be placed in the <code>data-magnify-src</code> attribute (as shown below) or passed as the <code>src</code> option when calling the <code>.magnify()</code> function. Assign the <code>magnify</code> class to the small image's parent element.</p>
+<p>The URI to the large image can be placed in the <code>data-magnify-src</code> attribute (as shown below) or passed as the <code>src</code> option when calling the <code>.magnify()</code> function.</p>
 
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>magnify<span class="pl-pds">"</span></span>&gt;
-  &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product.jpg<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>magnify-image<span class="pl-pds">"</span></span> <span class="pl-e">data-magnify-src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product-large.jpg<span class="pl-pds">"</span></span>&gt;
-&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product.jpg<span class="pl-pds">"</span></span> <span class="pl-e">data-magnify-src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product-large.jpg<span class="pl-pds">"</span></span>&gt;</pre></div>
+
+<p>If the <code>data-magnify-src</code> attribute or <code>src</code> option is not used, then Magnify JS will try to grab the large image from the parent <code>&lt;a&gt;</code> tag, e.g.:</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">a</span> <span class="pl-e">href</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product-large.jpg<span class="pl-pds">"</span></span>&gt;
+  &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product.jpg<span class="pl-pds">"</span></span>&gt;
+&lt;/<span class="pl-ent">a</span>&gt;</pre></div>
 
 <h3>
 <a id="step-3-call-the-magnify-function" class="anchor" href="#step-3-call-the-magnify-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 3: Call the .magnify() function</h3>
@@ -68,7 +72,7 @@
 
 <div class="highlight highlight-html"><pre><span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
 <span class="pl-s2">$(<span class="pl-s3">document</span>).ready(<span class="pl-st">function</span>() {</span>
-<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>.magnify<span class="pl-pds">'</span></span>).magnify();</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>img<span class="pl-pds">'</span></span>).magnify();</span>
 <span class="pl-s2">});</span>
 <span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
 
@@ -76,8 +80,8 @@
 
 <div class="highlight highlight-html"><pre><span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
 <span class="pl-s2">$(<span class="pl-s3">document</span>).ready(<span class="pl-st">function</span>() {</span>
-<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>.magnify<span class="pl-pds">'</span></span>).magnify({</span>
-<span class="pl-s2">    speed<span class="pl-k">:</span> <span class="pl-c1">200</span>,</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>img<span class="pl-pds">'</span></span>).magnify({</span>
+<span class="pl-s2">    speed<span class="pl-k">:</span> <span class="pl-c1">100</span>,</span>
 <span class="pl-s2">    src<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>/images/product-large.jpg<span class="pl-pds">'</span></span></span>
 <span class="pl-s2">  });</span>
 <span class="pl-s2">});</span>
@@ -101,7 +105,7 @@
 <tr>
 <td><code>speed</code></td>
 <td>number</td>
-<td>100</td>
+<td>200</td>
 <td>The fade-in/out animation speed in ms when the lens moves on/off the image.</td>
 </tr>
 <tr>
