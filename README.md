@@ -24,6 +24,14 @@ The URI to the large image can be placed in the `data-magnify-src` attribute (as
 <img src="/images/product.jpg" data-magnify-src="/images/product-large.jpg">
 ```
 
+If the `data-magnify-src` attribute or `src` option is not used, then Magnify JS will try to grab the large image from the parent `<a>` tag, e.g.:
+
+```html
+<a href="/images/product-large.jpg">
+  <img src="/images/product.jpg">
+</a>
+```
+
 ### Step 3: Call the .magnify() function
 
 Make sure this comes after the two required JavaScript files from Step 1 are loaded.
