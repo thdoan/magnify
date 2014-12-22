@@ -30,7 +30,7 @@
 .magnify .magnify-lens.loading {
   background: none !important;
 }
-.magnify .magnify-lens.loading: after {
+.magnify .magnify-lens.loading:after {
   /* Loading text */
   position: absolute;
   top: 43%;
