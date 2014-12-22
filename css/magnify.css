@@ -1,5 +1,6 @@
 .magnify {
   position: relative;
+  display: inline-block;
 }
 .magnify .magnify-lens {
   /* Create the magnifying lens */
@@ -39,8 +40,4 @@
   font-weight: normal;
   text-align: center;
   text-shadow: 0 0 2px rgba(51, 51, 51, .8);
-}
-.magnify .magnify-image {
-  /* Fix for overlap bug at the edges during magnification */
-  display: block;
 }

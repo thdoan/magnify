@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.1 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -9,27 +9,35 @@
 
 (function($) {
   $.fn.magnify = function(oOptions) {
+
     var oSettings = $.extend({
         /* Default options */
-        size: '175px',
-        speed: 100
+        speed: 200
       }, oOptions),
       init = function(o) {
-        var $o = $(o),
-          $img = $('.magnify-image', $o),
+        var $image = $(o),
+          $container,
           $lens,
-          sMagnifiedSrc = $img.attr('data-magnify-src') || oSettings.src,
+          sMagnifiedSrc = $image.attr('data-magnify-src') || oSettings.src || '',
           nMagnifiedWidth = 0,
-          nMagnifiedHeight = 0
+          nMagnifiedHeight = 0;
 
-        // Create the magnifying lens div if necessary
-        if (!$img.prev('.magnify-lens').length) {
-          $img.before('<div class="magnify-lens loading" style="background:url(' + sMagnifiedSrc + ') no-repeat 0 0;"></div>');
+        // Fix overlap bug at the edges during magnification
+        $image.css('display', 'block');
+
+        // Create container div if necessary
+        if (!$image.parent('.magnify').length) {
+          $image.wrap('<div class="magnify"></div>');
         }
-        $lens = $('.magnify-lens', $o);
+        $container = $image.parent('.magnify');
+        // Create the magnifying lens div if necessary
+        if (!$image.prev('.magnify-lens').length) {
+          $image.before('<div class="magnify-lens loading" style="background:url(' + sMagnifiedSrc + ') no-repeat 0 0;"></div>');
+        }
+        $lens = $container.children('.magnify-lens');
 
-        // Calculate the native (magnified) dimensions. The zoomed version is
-        // only shown after the native dimensions are available. To get the
+        // Calculate the native (magnified) image dimensions. The zoomed version
+        // is only shown after the native dimensions are available. To get the
         // actual dimensions we have to create this image object.
         var oImage = new Image();
         $(oImage).load(function() {
@@ -44,17 +52,17 @@
         oImage.src = sMagnifiedSrc;
 
         // Handle mouse movements
-        $o.mousemove(function(e) {
+        $container.mousemove(function(e) {
           // x/y coordinates of the mouse pointer
           // This is the position of .magnify relative to the document.
-          var oMagnifyOffset = $o.offset(),
+          var oMagnifyOffset = $container.offset(),
             /* We deduct the positions of .magnify from the mouse positions
                relative to the document to get the mouse positions relative to
                the container (.magnify). */
             nX = e.pageX - oMagnifyOffset.left;
             nY = e.pageY - oMagnifyOffset.top;
           // Fade out the lens if the mouse pointer is outside the container.
-          if (nX<$o.width() && nY<$o.height() && nX>0 && nY>0) {
+          if (nX<$container.width() && nY<$container.height() && nX>0 && nY>0) {
             $lens.fadeIn(oSettings.speed);
           } else {
             $lens.fadeOut(oSettings.speed);
@@ -69,15 +77,15 @@
               // allows us to get the ratio of the pixel under the mouse pointer
               // with respect to the image and use that to position the large
               // image inside the magnifying lens.
-              var nRatioX = Math.round(nX/$img.width()*nMagnifiedWidth - $lens.width()/2)*-1,
-                nRatioY = Math.round(nY/$img.height()*nMagnifiedHeight - $lens.height()/2)*-1,
+              var nRatioX = Math.round(nX/$image.width()*nMagnifiedWidth - $lens.width()/2)*-1,
+                nRatioY = Math.round(nY/$image.height()*nMagnifiedHeight - $lens.height()/2)*-1,
                 sBgPos = nRatioX + 'px ' + nRatioY + 'px';
             }
             // Now the lens moves with the mouse. The logic is to deduct half
             // of the lens's width and height from the mouse coordinates to
             // place it with its center at the mouse coordinates. If you hover
             // on the image now, you should see the magnifying lens in action.
-            //console.log('$img.width(): ' + $img.width() + ', nMagnifiedWidth: ' + nMagnifiedWidth + ', $lens.width(): ' + $lens.width() + ', nX: ' + nX + ', sBgPos: ' + sBgPos);
+            //console.log('$image.width(): ' + $image.width() + ', nMagnifiedWidth: ' + nMagnifiedWidth + ', $lens.width(): ' + $lens.width() + ', nX: ' + nX + ', sBgPos: ' + sBgPos);
             $lens.css({
               top: nPosY,
               left: nPosX,
@@ -87,9 +95,11 @@
         });
 
       };
+
     return this.each(function() {
       /* Initiate magnification powers */
       init(this);
     });
+
   };
 }(jQuery));
