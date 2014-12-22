@@ -24,6 +24,8 @@
   cursor: none;
   /* Hide the lens by default */
   display: none;
+  /* Place the lens on top of other elements */
+  z-index: 100;
 }
 .magnify .magnify-lens.loading {
   background: none !important;
