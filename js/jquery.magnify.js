@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.1 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.2 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -18,7 +18,8 @@
         var $image = $(o),
           $container,
           $lens,
-          sMagnifiedSrc = $image.attr('data-magnify-src') || oSettings.src || '',
+          $anchor = $image.parents('a'),
+          sMagnifiedSrc = $image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '',
           nMagnifiedWidth = 0,
           nMagnifiedHeight = 0;
 
@@ -93,6 +94,13 @@
             });
           }
         });
+
+        // Disable parent anchor if it's sourcing the large image
+        if ($anchor.attr('href') && !($image.attr('data-magnify-src') || oSettings.src)) {
+          $anchor.click(function(e) {
+            e.preventDefault();
+          });
+        }
 
       };
 
