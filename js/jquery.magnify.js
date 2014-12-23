@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.2 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.2.1 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
