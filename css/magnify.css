@@ -41,4 +41,5 @@
   font: italic normal 16px/1 Calibri, sans-serif;
   text-align: center;
   text-shadow: 0 0 2px rgba(51, 51, 51, .8);
+  text-transform: none;
 }
