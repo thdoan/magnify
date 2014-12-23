@@ -33,7 +33,7 @@
 .magnify .magnify-lens.loading:after {
   /* Loading text */
   position: absolute;
-  top: 43%;
+  top: 45%;
   left: 0;
   width: 100%;
   color: #fff;
