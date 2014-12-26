@@ -32,7 +32,9 @@
         }
         $container = $image.parent('.magnify');
         // Create the magnifying lens div if necessary
-        if (!$image.prev('.magnify-lens').length) {
+        if ($image.prev('.magnify-lens').length) {
+          $container.children('.magnify-lens').css('background-image', 'url(' + sMagnifiedSrc + ')');
+        } else {
           $image.before('<div class="magnify-lens loading" style="background:url(' + sMagnifiedSrc + ') no-repeat 0 0;"></div>');
         }
         $lens = $container.children('.magnify-lens');
