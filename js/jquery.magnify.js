@@ -12,7 +12,7 @@
 
     var oSettings = $.extend({
         /* Default options */
-        speed: 200
+        speed: 100
       }, oOptions),
       init = function(o) {
         var $image = $(o),
