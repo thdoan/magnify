@@ -46,9 +46,9 @@
 <h3>
 <a id="step-1-link-the-required-files" class="anchor" href="#step-1-link-the-required-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 1: Link the required files</h3>
 
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s1"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s1"><span class="pl-pds">"</span>css/magnify.css<span class="pl-pds">"</span></span>&gt;
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s1"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s1"><span class="pl-pds">"</span>/css/magnify.css<span class="pl-pds">"</span></span>&gt;
 &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
-&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>js/jquery.magnify.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/js/jquery.magnify.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
 
 <p>You have complete control over the style and size of the lens by modifying <code>magnify.css</code>. It is recommended to load the two JavaScript files at the bottom just before the closing <code>&lt;/body&gt;</code> tag if possible.</p>
 
@@ -81,7 +81,7 @@
 <div class="highlight highlight-html"><pre><span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
 <span class="pl-s2">$(<span class="pl-s3">document</span>).ready(<span class="pl-st">function</span>() {</span>
 <span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>img<span class="pl-pds">'</span></span>).magnify({</span>
-<span class="pl-s2">    speed<span class="pl-k">:</span> <span class="pl-c1">100</span>,</span>
+<span class="pl-s2">    speed<span class="pl-k">:</span> <span class="pl-c1">200</span>,</span>
 <span class="pl-s2">    src<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>/images/product-large.jpg<span class="pl-pds">'</span></span></span>
 <span class="pl-s2">  });</span>
 <span class="pl-s2">});</span>
@@ -105,7 +105,7 @@
 <tr>
 <td><code>speed</code></td>
 <td>number</td>
-<td>200</td>
+<td>100</td>
 <td>The fade-in/out animation speed in ms when the lens moves on/off the image.</td>
 </tr>
 <tr>
