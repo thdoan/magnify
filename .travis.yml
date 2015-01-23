@@ -1,0 +1,8 @@
+deploy:
+  provider: npm
+  email: thdoan@gmail.com
+  api_key:
+    secure: Fg/W6bkAeU7kInVYGQFWDT5/QQjk/A22YUXYGif9dUma5zx7Ulq+V+Pz68B3y/BmVnghf7XBEetDlFP5qMGMgIdZbcg8BwjRrfntK7LUBq0P1nPcuO79ZfNbIFSXjchZ1wNfu03RnrZbSSKYVj7DWEEHE0r/lK5BtAVFiJ66WPA=
+  on:
+    tags: true
+    repo: thdoan/magnify
