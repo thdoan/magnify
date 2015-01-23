@@ -1,10 +1,10 @@
 {
   "name": "magnify",
-  "title": "jQuery Magnify",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A simple, lightweight jQuery magnifying glass zoom plugin.",
   "keywords": [
     "jquery-plugin",
+    "jquery magnify",
     "magnify",
     "zoom"
   ],
@@ -14,11 +14,10 @@
   },
   "license": "MIT",
   "author": "Tom Doan <thdoan@gmail.com> (http://www.tohodo.com/)",
-  "main": "js/jquery.magnify.js",
+  "main": "dist/js/jquery.magnify.js",
   "dependencies": {
-    "jquery": "*"
+    "jquery": ">=1.7.0"
   },
-  "demo": "http://thdoan.github.io/magnify/demo.html",
   "repository": {
     "type": "git",
     "url": "https://github.com/thdoan/magnify.git"

@@ -2,7 +2,7 @@
 
 Magnify JS is a simple, lightweight jQuery plugin that adds a magnifying glass style zoom functionality to images. It is a useful feature to have for product images on ecommerce websites, or if you just want people to be able to zoom into an image without spawning additional overlays or popup windows that may cover your content. Magnify JS is based on [this tutorial](http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3).
 
-### [__See a demo &raquo;__](http://thdoan.github.io/magnify/demo.html)
+### [See a demo &raquo;](http://thdoan.github.io/magnify/demo.html)
 
 ## Getting Started
 
@@ -68,4 +68,9 @@ Name    | Type   | Default | Description
 
 ## Installation
 
-You can manually download the package from here or install Magnify JS through the npm package manager by issuing the command `npm install magnify`.
+Choose from one of the following methods:
+
+- `git clone https://github.com/thdoan/magnify.git`
+- `bower install magnify`
+- `npm install magnify`
+- [Download ZIP](https://github.com/thdoan/magnify/archive/master.zip)
