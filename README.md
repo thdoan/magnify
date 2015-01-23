@@ -9,9 +9,9 @@ Magnify JS is a simple, lightweight jQuery plugin that adds a magnifying glass s
 ### Step 1: Link the required files
 
 ```html
-<link rel="stylesheet" href="css/magnify.css">
+<link rel="stylesheet" href="/css/magnify.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script src="js/jquery.magnify.js"></script>
+<script src="/js/jquery.magnify.js"></script>
 ```
 
 You have complete control over the style and size of the lens by modifying `magnify.css`. It is recommended to load the two JavaScript files at the bottom just before the closing `</body>` tag if possible.
@@ -50,7 +50,7 @@ Calling the `.magnify()` function with options:
 <script>
 $(document).ready(function() {
   $('img').magnify({
-    speed: 100,
+    speed: 200,
     src: '/images/product-large.jpg'
   });
 });
@@ -63,7 +63,7 @@ Options can be set using data attributes or passed in an `options` JavaScript ob
 
 Name    | Type   | Default | Description
 --------| ------ | ------- | -----------
-`speed` | number | 200     | The fade-in/out animation speed in ms when the lens moves on/off the image.
+`speed` | number | 100     | The fade-in/out animation speed in ms when the lens moves on/off the image.
 `src`   | string | ''      | The URI of the large image that will be shown in the magnifying lens.
 
 ## Installation
