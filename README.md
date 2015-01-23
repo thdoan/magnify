@@ -59,7 +59,7 @@ $(document).ready(function() {
 
 ## Options
 
-Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to `data-magnify-` (e.g., `data-magnify-src="..."`).
+Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to "data-magnify-" (e.g., `data-magnify-src="..."`).
 
 Name    | Type   | Default | Description
 --------| ------ | ------- | -----------
