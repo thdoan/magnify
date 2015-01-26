@@ -9,3 +9,4 @@ deploy:
   on:
     tags: true
     repo: thdoan/magnify
+    all_branches: true
