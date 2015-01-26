@@ -6,3 +6,6 @@ deploy:
   on:
     tags: true
     repo: thdoan/magnify
+  language: node_js
+  script: /bin/true
+  install: /bin/true
