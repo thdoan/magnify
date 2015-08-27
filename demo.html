@@ -31,12 +31,16 @@ body {
      "src" when calling the .magnify() function. -->
 <img src="images/watch.jpg" alt="" width="319" height="570" data-magnify-src="images/watch-large.jpg">
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script src="js/jquery.magnify.js"></script>
 <script>
 $(document).ready(function() {
   // Initiate magnification powers
-  $('img').magnify();
+  $('img').magnify({
+    onload: function() {
+      console.log('Magnification powers activated!');
+    }
+  });
 });
 </script>
 
