@@ -13,7 +13,8 @@
     var oSettings = $.extend({
         /* Default options */
         debug: false,
-        speed: 100
+        speed: 100,
+        onload: function(){}
       }, oOptions),
       $anchor,
       $container,
@@ -67,7 +68,8 @@
             if (oSettings.debug) console.log('[MAGNIFY] Got zoom image dimensions OK (width x height): ' + nMagnifiedWidth + ' x ' + nMagnifiedHeight);
             // Clean up
             elImage = null;
-
+            // Callback
+            oSettings.onload();
             // Handle mouse movements
             $container.mousemove(function(e) {
               // x/y coordinates of the mouse pointer
