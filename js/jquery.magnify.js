@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.3.2 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.3.3 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -78,13 +78,15 @@
                 /* We deduct the positions of .magnify from the mouse positions
                    relative to the document to get the mouse positions relative to
                    the container (.magnify). */
-                nX = e.pageX - oMagnifyOffset.left;
+                nX = e.pageX - oMagnifyOffset.left,
                 nY = e.pageY - oMagnifyOffset.top;
               // Fade out the lens if the mouse pointer is outside the container.
-              if (nX<$container.width() && nY<$container.height() && nX>0 && nY>0) {
-                $lens.fadeIn(oSettings.speed);
-              } else {
-                $lens.fadeOut(oSettings.speed);
+              if (!$lens.is(':animated')) {
+                if (nX<$container.width() && nY<$container.height() && nX>0 && nY>0) {
+                  if ($lens.is(':hidden')) $lens.fadeIn(oSettings.speed);
+                } else {
+                  if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
+                }
               }
               if ($lens.is(':visible')) {
                 /* Move the magnifying lens with the mouse */
@@ -113,6 +115,9 @@
                   backgroundPosition: sBgPos || ''
                 });
               }
+            });
+            $container.mouseleave(function() {
+              if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
             });
 
             if ($anchor.length) {
