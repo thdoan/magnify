@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.3.1 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.3.2 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -52,9 +52,9 @@
             $container = $image.parent('.magnify');
             // Create the magnifying lens div if necessary
             if ($image.prev('.magnify-lens').length) {
-              $container.children('.magnify-lens').css('background-image', 'url(' + sImgSrc + ')');
+              $container.children('.magnify-lens').css('background-image', 'url(\'' + sImgSrc + '\')');
             } else {
-              $image.before('<div class="magnify-lens loading" style="background:url(' + sImgSrc + ') no-repeat 0 0"></div>');
+              $image.before('<div class="magnify-lens loading" style="background:url(\'' + sImgSrc + '\') no-repeat 0 0"></div>');
             }
             $lens = $container.children('.magnify-lens');
 
