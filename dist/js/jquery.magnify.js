@@ -71,15 +71,16 @@
             // Callback
             oSettings.onload();
             // Handle mouse movements
-            $container.mousemove(function(e) {
+            $container.on('mousemove touchmove', function(e) {
+              e.preventDefault();
               // x/y coordinates of the mouse pointer
               // This is the position of .magnify relative to the document.
               var oMagnifyOffset = $container.offset(),
                 /* We deduct the positions of .magnify from the mouse positions
                    relative to the document to get the mouse positions relative
                    to the container (.magnify). */
-                nX = e.pageX - oMagnifyOffset.left,
-                nY = e.pageY - oMagnifyOffset.top;
+                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oMagnifyOffset.left,
+                nY = (e.pageY || e.originalEvent.touches[0].pageY) - oMagnifyOffset.top;
               // Toggle magnifying lens
               if (!$lens.is(':animated')) {
                 if (nX<$container.width() && nY<$container.height() && nX>0 && nY>0) {
