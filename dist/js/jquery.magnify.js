@@ -79,7 +79,7 @@
                 /* We deduct the positions of .magnify from the mouse positions
                    relative to the document to get the mouse positions relative
                    to the container (.magnify). */
-                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oMagnifyOffset.left;
+                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oMagnifyOffset.left,
                 nY = (e.pageY || e.originalEvent.touches[0].pageY) - oMagnifyOffset.top;
               // Toggle magnifying lens
               if (!$lens.is(':animated')) {
