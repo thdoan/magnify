@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.3.3 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.4.0 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -73,12 +73,12 @@
             // Handle mouse movements
             $container.on('mousemove touchmove', function(e) {
               e.preventDefault();
-              // x/y coordinates of the mouse pointer
+              // x/y coordinates of the mouse pointer or touch point
               // This is the position of .magnify relative to the document.
               var oMagnifyOffset = $container.offset(),
-                /* We deduct the positions of .magnify from the mouse positions
-                   relative to the document to get the mouse positions relative
-                   to the container (.magnify). */
+                /* We deduct the positions of .magnify from the mouse or touch
+                   positions relative to the document to get the mouse or touch
+                   positions relative to the container (.magnify). */
                 nX = (e.pageX || e.originalEvent.touches[0].pageX) - oMagnifyOffset.left,
                 nY = (e.pageY || e.originalEvent.touches[0].pageY) - oMagnifyOffset.top;
               // Toggle magnifying lens
