@@ -116,7 +116,7 @@
               }
             });
             // Prevent magnifying lens from getting "stuck"
-            $container.mouseleave(function() {
+            $container.on('mouseleave touchend', function() {
               if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
             });
 
