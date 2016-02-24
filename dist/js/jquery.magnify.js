@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.4.0 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.5.0 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -14,6 +14,7 @@
         /* Default options */
         debug: false,
         speed: 100,
+        timeout: -1,
         onload: function(){}
       }, oOptions),
       $anchor,
@@ -119,6 +120,13 @@
             $container.mouseleave(function() {
               if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
             });
+            if (oSettings.timeout>=0) {
+              $container.on('touchend', function() {
+                setTimeout(function() {
+                  if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
+                }, oSettings.timeout);
+              });
+            }
 
             if ($anchor.length) {
               // Make parent anchor inline-block to have correct dimensions
