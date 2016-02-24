@@ -120,7 +120,7 @@
             $container.mouseleave(function() {
               if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
             });
-            if (oSettings.timeout>-1) {
+            if (oSettings.timeout>=0) {
               $container.on('touchend', function() {
                 setTimeout(function() {
                   if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
