@@ -1,6 +1,6 @@
-# Magnify JS
+# Magnify
 
-Magnify JS is a simple, lightweight jQuery plugin that adds a magnifying glass style zoom functionality to images. It is a useful feature to have for product images on ecommerce websites, or if you just want people to be able to zoom into an image without spawning additional overlays or popup windows that may cover your content. Magnify JS is based on [this tutorial](http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3).
+Magnify is a simple, lightweight jQuery plugin that adds a magnifying glass style zoom functionality to images. It is a useful feature to have for product images on ecommerce websites, or if you just want people to be able to zoom into an image without spawning additional overlays or popup windows that may cover your content. Magnify is based on [this tutorial](http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3).
 
 If you don't use jQuery, then you can use [TrySound's vanilla JS version](https://github.com/TrySound/magnify/tree/fix-vanillajs).
 
@@ -16,7 +16,13 @@ If you don't use jQuery, then you can use [TrySound's vanilla JS version](https:
 <script src="/js/jquery.magnify.js"></script>
 ```
 
-You have complete control over the style and size of the lens by modifying `magnify.css`. It is recommended to load the two JavaScript files at the bottom just before the closing `</body>` tag if possible.
+Magnify has support for touch devices, but for a better zoom experience you can load the optional mobile plugin below the `jquery.magnify.js` script:
+
+```html
+<script src="/js/jquery.magnify-mobile.js"></script>
+```
+
+You have complete control over the style and size of the lens by modifying `magnify.css`. It is recommended to load the JavaScript files at the bottom just before the closing `</body>` tag if possible.
 
 ### Step 2: Specify the large image
 
@@ -26,7 +32,7 @@ The URI to the large image can be placed in the `data-magnify-src` attribute (as
 <img src="/images/product.jpg" data-magnify-src="/images/product-large.jpg">
 ```
 
-If the `data-magnify-src` attribute or `src` option is not used, then Magnify JS will try to grab the large image from the parent `<a>` tag, e.g.:
+If the `data-magnify-src` attribute or `src` option is not used, then Magnify will try to grab the large image from the parent `<a>` tag, e.g.:
 
 ```html
 <a href="/images/product-large.jpg">
