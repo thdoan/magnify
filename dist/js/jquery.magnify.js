@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.5.0 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.5.1 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -127,6 +127,10 @@
                 }, oSettings.timeout);
               });
             }
+            // Ensure lens is closed when tapping outside of it
+            $('body').not($container).on('touchstart', function() {
+              if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
+            });
 
             if ($anchor.length) {
               // Make parent anchor inline-block to have correct dimensions
