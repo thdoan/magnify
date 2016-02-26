@@ -19,7 +19,7 @@ If you don't use jQuery, then you can use [TrySound's vanilla JS version](https:
 <!-- <script src="/js/jquery.magnify-mobile.js"></script> -->
 ```
 
-You have complete control over the style and size of the lens by modifying `magnify.css`. Magnify has support for touch devices, but for a better zoom experience you can load the optional mobile plugin by uncommenting it. It is recommended to load the JavaScript files at the bottom just before the closing `</body>` tag if possible.
+You have complete control over the style and size of the lens by modifying `magnify.css`. Magnify has support for touch devices, but for a better zoom experience you can load the optional mobile plugin by uncommenting the last line above. It is recommended to load the JavaScript files at the bottom just before the closing `</body>` tag if possible.
 
 ### Step 2: Specify the large image
 
