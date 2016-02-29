@@ -68,7 +68,6 @@ Options can be set using data attributes or passed in an `options` JavaScript ob
 
 Name      | Type     | Default | Description
 --------- | -------- | ------- | -----------
-`debug`   | boolean  | false   | Toggle activity logging in the console.
 `speed`   | number   | 100     | The fade-in/out animation speed in ms when the lens moves on/off the image.
 `src`     | string   | ''      | The URI of the large image that will be shown in the magnifying lens.
 `timeout` | number   | -1      | The wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
