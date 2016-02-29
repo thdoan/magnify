@@ -26,14 +26,14 @@ You have complete control over the style and size of the lens by modifying `magn
 The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the `src` option when calling the `.magnify()` function.
 
 ```html
-<img src="/images/product.jpg" data-magnify-src="/images/product-large.jpg">
+<img src="/images/product.jpg" class="zoom" data-magnify-src="/images/product-large.jpg">
 ```
 
 If the `data-magnify-src` attribute or `src` option is not used, then Magnify will try to grab the large image from the parent `<a>` tag, e.g.:
 
 ```html
 <a href="/images/product-large.jpg">
-  <img src="/images/product.jpg">
+  <img src="/images/product.jpg" class="zoom">
 </a>
 ```
 
@@ -44,7 +44,7 @@ Make sure this comes after the two required JavaScript files from Step 1 are loa
 ```html
 <script>
 $(document).ready(function() {
-  $('img').magnify();
+  $('.zoom').magnify();
 });
 </script>
 ```
@@ -54,7 +54,7 @@ Calling the `.magnify()` function with options:
 ```html
 <script>
 $(document).ready(function() {
-  $('img').magnify({
+  $('.zoom').magnify({
     speed: 200,
     src: '/images/product-large.jpg'
   });

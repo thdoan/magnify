@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.0 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.5 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -24,7 +24,12 @@
           $lens,
           nMagnifiedWidth = 0,
           nMagnifiedHeight = 0,
-          sImgSrc = $image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '';
+          sImgSrc = $image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '',
+          hideLens = function() {
+            if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed, function() {
+              $('html').removeClass('magnifying'); // Reset overflow
+            });
+          };
         // Disable zooming if no valid zoom image source
         if (!sImgSrc) return;
 
@@ -85,9 +90,12 @@
               // Toggle magnifying lens
               if (!$lens.is(':animated')) {
                 if (nX<$container.width() && nY<$container.height() && nX>0 && nY>0) {
-                  if ($lens.is(':hidden')) $lens.fadeIn(oSettings.speed);
+                  if ($lens.is(':hidden')) {
+                    $('html').addClass('magnifying'); // Hide overflow while zooming
+                    $lens.fadeIn(oSettings.speed);
+                  }
                 } else {
-                  if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
+                  hideLens();
                 }
               }
               if ($lens.is(':visible')) {
@@ -118,20 +126,14 @@
             });
 
             // Prevent magnifying lens from getting "stuck"
-            $container.mouseleave(function() {
-              if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
-            });
+            $container.mouseleave(hideLens);
             if (oSettings.timeout>=0) {
               $container.on('touchend', function() {
-                setTimeout(function() {
-                  if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
-                }, oSettings.timeout);
+                setTimeout(hideLens, oSettings.timeout);
               });
             }
             // Ensure lens is closed when tapping outside of it
-            $('body').not($container).on('touchstart', function() {
-              if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
-            });
+            $('body').not($container).on('touchstart', hideLens);
 
             if ($anchor.length) {
               // Make parent anchor inline-block to have correct dimensions
