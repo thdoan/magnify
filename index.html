@@ -52,12 +52,12 @@
 
 <p>The URI to the large image can be placed in the <code>data-magnify-src</code> attribute (as shown below) or passed as the <code>src</code> option when calling the <code>.magnify()</code> function.</p>
 
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product.jpg<span class="pl-pds">"</span></span> <span class="pl-e">data-magnify-src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product-large.jpg<span class="pl-pds">"</span></span>&gt;</pre></div>
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product.jpg<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>zoom<span class="pl-pds">"</span></span> <span class="pl-e">data-magnify-src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product-large.jpg<span class="pl-pds">"</span></span>&gt;</pre></div>
 
 <p>If the <code>data-magnify-src</code> attribute or <code>src</code> option is not used, then Magnify JS will try to grab the large image from the parent <code>&lt;a&gt;</code> tag, e.g.:</p>
 
 <div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">a</span> <span class="pl-e">href</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product-large.jpg<span class="pl-pds">"</span></span>&gt;
-  &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product.jpg<span class="pl-pds">"</span></span>&gt;
+  &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>/images/product.jpg<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>zoom<span class="pl-pds">"</span></span>&gt;
 &lt;/<span class="pl-ent">a</span>&gt;</pre></div>
 
 <h3><a id="step-3-call-the-magnify-function" class="anchor" href="#step-3-call-the-magnify-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 3: Call the .magnify() function</h3>
@@ -66,7 +66,7 @@
 
 <div class="highlight highlight-html"><pre><span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
 <span class="pl-s2">$(<span class="pl-s3">document</span>).ready(<span class="pl-st">function</span>() {</span>
-<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>img<span class="pl-pds">'</span></span>).magnify();</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>.zoom<span class="pl-pds">'</span></span>).magnify();</span>
 <span class="pl-s2">});</span>
 <span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
 
@@ -74,7 +74,7 @@
 
 <div class="highlight highlight-html"><pre><span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
 <span class="pl-s2">$(<span class="pl-s3">document</span>).ready(<span class="pl-st">function</span>() {</span>
-<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>img<span class="pl-pds">'</span></span>).magnify({</span>
+<span class="pl-s2">  $(<span class="pl-s1"><span class="pl-pds">'</span>.zoom<span class="pl-pds">'</span></span>).magnify({</span>
 <span class="pl-s2">    speed<span class="pl-k">:</span> <span class="pl-c1">200</span>,</span>
 <span class="pl-s2">    src<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>/images/product-large.jpg<span class="pl-pds">'</span></span></span>
 <span class="pl-s2">  });</span>
