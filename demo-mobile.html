@@ -26,19 +26,32 @@ body {
   text-align: center;
   vertical-align: middle;
 }
-#sample-image {
-  width: 160px;
-  height: 286px;
+#sample-glasses {
+  width: 100%;
+  max-width: 400px;
+}
+#sample-watch {
+  width: 100%;
+  max-width: 210px;
 }
 </style>
 </head>
 <body>
 
-<!-- This is the small image; the URI to the large image can be placed in the
-     data-magnify-src attribute (as shown below) or passed as an option called
-     "src" when calling the .magnify() function. -->
-<img id="sample-image" src="images/watch.jpg" alt="Sample image" data-magnify-src="images/watch-large.jpg"><br>
-View this in your mobile
+<h3>View in your mobile</h3>
+
+<!-- <img> is the small image; the URI to the large image can be placed in the
+     'data-magnify-src' attribute (watch-large.jpg), linked to in the parent <a>
+     tag (glasses-large.jpg), or passed as the 'src' option when calling the
+     .magnify() function. -->
+
+<img id="sample-watch" src="images/watch.jpg" alt="Sample image" class="zoom" data-magnify-src="images/watch-large.jpg">
+
+&nbsp; &nbsp; &nbsp;
+
+<a href="images/glasses-large.jpg">
+  <img id="sample-glasses" src="images/glasses.jpg" alt="Sample image" class="zoom">
+</a>
 
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -51,7 +64,7 @@ View this in your mobile
 <script>
 $(document).ready(function() {
   // Initiate magnification powers
-  $('#sample-image').magnify({
+  $('.zoom').magnify({
     onload: function() {
       console.log('Magnification powers activated!');
     }

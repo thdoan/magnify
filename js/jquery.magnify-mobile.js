@@ -44,57 +44,52 @@
     '</style>').appendTo('head');
   // Ensure .magnify is rendered
   $(window).load(function() {
-    $('body').append('<div class="magnify-mobile"><div class="lens-mobile loading"></div></div>');
+    $('body').append('<div class="magnify-mobile"><div class="lens-mobile"></div></div>');
     var $lensMobile = $('.lens-mobile');
     // Only enable mobile zoom on smartphones
     if ($lensMobile.is(':visible') && !!('ontouchstart' in window || (window.DocumentTouch && document instanceof DocumentTouch) || navigator.msMaxTouchPoints)) {
       var $magnify = $('.magnify'),
-        $magnifyMobile = $('.magnify-mobile'),
-        $magnifyImage = $magnify.children('img'),
-        /* NOTE: In iOS background is url(...), not url("...") */
-        sZoomImage = $('.magnify-lens').css('background-image').replace(/url\(["']?|["']?\)/g, ''),
-        nImageWidth = $magnifyImage.width(),
-        nImageHeight = $magnifyImage.height(),
-        nZoomWidth,
-        nZoomHeight,
-        nScrollOffsetX,
-        nScrollOffsetY;
+        $magnifyMobile = $('.magnify-mobile');
       // Disable desktop magnifying lens
       $magnify.off();
       // Initiate mobile zoom
       // NOTE: Fixed elements inside a scrolling div have issues in iOS, so we
       // need to insert the close icon at the same level as the lens
       $magnifyMobile.hide().append('<i class="close">&times;</i>');
-      $lensMobile.append('<img src="' + sZoomImage + '" alt="">');
       // Hook up event handlers
-      $lensMobile.children('img').load(function() {
-        nZoomWidth = this.width;
-        nZoomHeight = this.height;
-      });
       $magnifyMobile.children('.close').on('touchstart', function() {
         $magnifyMobile.toggle();
       });
-      $magnifyImage.on({
+      $magnify.children('img').on({
         touchend: function() {
           // Only execute on tap
           if ($(this).data('drag')) return;
+          var oScrollOffset = $(this).data('scrollOffset');
           $magnifyMobile.toggle();
           // Zoom into touch point
-          $lensMobile.scrollLeft(nScrollOffsetX);
-          $lensMobile.scrollTop(nScrollOffsetY);
+          $lensMobile.scrollLeft(oScrollOffset.x);
+          $lensMobile.scrollTop(oScrollOffset.y);
         },
         touchmove: function() {
           // Set drag state
           $(this).data('drag', true);
         },
         touchstart: function(e) {
+          // Render zoom image
+          // NOTE: In iOS background-image is url(...), not url("...")
+          $lensMobile.html('<img src="' + $(this).prev('.magnify-lens').css('background-image').replace(/url\(["']?|["']?\)/g, '') + '" alt="">');
           // Determine zoom position
-          var nX = e.originalEvent.touches[0].pageX - $magnifyImage.offset().left,
-            nXPct = nX / nImageWidth,
+          var $magnifyImage = $(this),
+            oZoomSize = $magnifyImage.data('zoomSize'),
+            nX = e.originalEvent.touches[0].pageX - $magnifyImage.offset().left,
+            nXPct = nX / $magnifyImage.width(),
             nY = e.originalEvent.touches[0].pageY - $magnifyImage.offset().top,
-            nYPct = nY / nImageHeight;
-          nScrollOffsetX = (nZoomWidth*nXPct)-(window.innerWidth/2);
-          nScrollOffsetY = (nZoomHeight*nYPct)-(window.innerHeight/2);
+            nYPct = nY / $magnifyImage.height();
+          // Store scroll offsets
+          $magnifyImage.data('scrollOffset', {
+            x: (oZoomSize.width*nXPct)-(window.innerWidth/2),
+            y: (oZoomSize.height*nYPct)-(window.innerHeight/2)
+          });
           // Reset drag state
           $(this).data('drag', false);
         }

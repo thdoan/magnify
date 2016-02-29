@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.5.1 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.0 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -11,41 +11,37 @@
   $.fn.magnify = function(oOptions) {
 
     var oSettings = $.extend({
-        /* Default options */
-        debug: false,
-        speed: 100,
-        timeout: -1,
-        onload: function(){}
-      }, oOptions),
-      $anchor,
-      $container,
-      $image,
-      $lens,
-      nMagnifiedWidth = 0,
-      nMagnifiedHeight = 0,
+          /* Default options */
+          speed: 100,
+          timeout: -1,
+          onload: function(){}
+        }, oOptions),
       init = function(el) {
         // Initiate
-        $image = $(el);
-        $anchor = $image.parents('a');
-        // Activate magnification!
-        // Try to get zoom image dimensions
-        // Proceed only if able to get zoom image dimensions OK
-        zoom($image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '');
-      },
-      zoom = function(sImgSrc, bAnchor) {
+        var $image = $(el),
+          $anchor = $image.closest('a'),
+          $container,
+          $lens,
+          nMagnifiedWidth = 0,
+          nMagnifiedHeight = 0,
+          sImgSrc = $image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '';
         // Disable zooming if no valid zoom image source
         if (!sImgSrc) return;
-        // Calculate the native (magnified) image dimensions. The zoomed version
-        // is only shown after the native dimensions are available. To get the
-        // actual dimensions we have to create this image object.
+
+        // Activate magnification:
+        // 1. Try to get zoom image dimensions
+        // 2. Proceed only if able to get zoom image dimensions OK
+
+        // [1] Calculate the native (magnified) image dimensions. The zoomed
+        // version is only shown after the native dimensions are available. To
+        // get the actual dimensions we have to create this image object.
         var elImage = new Image();
         $(elImage).on({
           load: function() {
-            // Got image dimensions OK
+            // [2] Got image dimensions OK
 
             // Fix overlap bug at the edges during magnification
             $image.css('display', 'block');
-
             // Create container div if necessary
             if (!$image.parent('.magnify').length) {
               $image.wrap('<div class="magnify"></div>');
@@ -58,7 +54,6 @@
               $image.before('<div class="magnify-lens loading" style="background:url(\'' + sImgSrc + '\') no-repeat 0 0"></div>');
             }
             $lens = $container.children('.magnify-lens');
-
             // Remove the "Loading..." text
             $lens.removeClass('loading');
             // This code is inside the .load() function, which is important.
@@ -66,11 +61,16 @@
             // before the image is fully loaded.
             nMagnifiedWidth = elImage.width;
             nMagnifiedHeight = elImage.height;
-            if (oSettings.debug) console.log('[MAGNIFY] Got zoom image dimensions OK (width x height): ' + nMagnifiedWidth + ' x ' + nMagnifiedHeight);
+            // Store dimensions for mobile plugin
+            $image.data('zoomSize', {
+              width: nMagnifiedWidth,
+              height: nMagnifiedHeight
+            });
             // Clean up
             elImage = null;
-            // Callback
+            // Execute callback
             oSettings.onload();
+
             // Handle mouse movements
             $container.on('mousemove touchmove', function(e) {
               e.preventDefault();
@@ -116,6 +116,7 @@
                 });
               }
             });
+
             // Prevent magnifying lens from getting "stuck"
             $container.mouseleave(function() {
               if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed);
@@ -136,7 +137,7 @@
               // Make parent anchor inline-block to have correct dimensions
               $anchor.css('display', 'inline-block');
               // Disable parent anchor if it's sourcing the large image
-              if (bAnchor || ($anchor.attr('href') && !($image.attr('data-magnify-src') || oSettings.src))) {
+              if ($anchor.attr('href') && !($image.attr('data-magnify-src') || oSettings.src)) {
                 $anchor.click(function(e) {
                   e.preventDefault();
                 });
@@ -147,12 +148,6 @@
           error: function() {
             // Clean up
             elImage = null;
-            if (bAnchor) {
-              if (oSettings.debug) console.log('[MAGNIFY] Parent anchor zoom source is invalid also. Disabling zoom...');
-            } else {
-              if (oSettings.debug) console.log('[MAGNIFY] Invalid data-magnify-src. Looking in parent anchor instead -> ' + $anchor.attr('href'));
-              zoom($anchor.attr('href'), true);
-            }
           }
         });
 
