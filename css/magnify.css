@@ -1,3 +1,6 @@
+html.magnifying > body {
+  overflow-x: hidden !important;
+}
 .magnify {
   position: relative;
   display: inline-block;
