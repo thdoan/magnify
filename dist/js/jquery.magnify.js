@@ -14,6 +14,8 @@
           /* Default options */
           speed: 100,
           timeout: -1,
+          position: null,
+          level: null,
           onload: function(){}
         }, oOptions),
       init = function(el) {
@@ -66,6 +68,12 @@
             // before the image is fully loaded.
             nMagnifiedWidth = elImage.width;
             nMagnifiedHeight = elImage.height;
+
+            if(oSettings.level){
+              nMagnifiedWidth = ($lens.width() * oSettings.level);
+              nMagnifiedHeight = (elImage.height/elImage.width) * nMagnifiedWidth; // keep the same ratio
+              $lens.css("background-size", (oSettings.level*100) + "%");
+            }
             // Store dimensions for mobile plugin
             $image.data('zoomSize', {
               width: nMagnifiedWidth,
@@ -112,16 +120,46 @@
                     nRatioY = Math.round(nY/$image.height()*nMagnifiedHeight - $lens.height()/2)*-1,
                     sBgPos = nRatioX + 'px ' + nRatioY + 'px';
                 }
-                // Now the lens moves with the mouse. The logic is to deduct
-                // half of the lens's width and height from the mouse
-                // coordinates to place it with its center at the mouse
-                // coordinates. If you hover on the image now, you should see
-                // the magnifying lens in action.
-                $lens.css({
-                  top: Math.round(nPosY) + 'px',
-                  left: Math.round(nPosX) + 'px',
-                  backgroundPosition: sBgPos || ''
-                });
+                if(oSettings.position == "bottomRight"){
+                  $lens.css({
+                    right: '0',
+                    bottom: '0',
+                    backgroundPosition: sBgPos || ''
+                  });
+                }
+                else if(oSettings.position == "bottomLeft"){
+                  $lens.css({
+                    left: '0',
+                    bottom: '0',
+                    backgroundPosition: sBgPos || ''
+                  });
+                }
+                else if(oSettings.position == "topLeft"){
+                  $lens.css({
+                    left: '0',
+                    top: '0',
+                    backgroundPosition: sBgPos || ''
+                  });
+                }
+                else if(oSettings.position == "topRight"){
+                  $lens.css({
+                    right: '0',
+                    top: '0',
+                    backgroundPosition: sBgPos || ''
+                  });
+                }
+                else{
+                  // Now the lens moves with the mouse. The logic is to deduct
+                  // half of the lens's width and height from the mouse
+                  // coordinates to place it with its center at the mouse
+                  // coordinates. If you hover on the image now, you should see
+                  // the magnifying lens in action.
+                  $lens.css({
+                    top: Math.round(nPosY) + 'px',
+                    left: Math.round(nPosX) + 'px',
+                    backgroundPosition: sBgPos || ''
+                  });
+                }
               }
             });
 
