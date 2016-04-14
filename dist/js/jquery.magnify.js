@@ -21,7 +21,12 @@
         var $image = $(el),
           $anchor = $image.closest('a'),
           $container,
+          oMagnifyOffset,
           $lens,
+          lensWidth,
+          lensHeight,
+          imageWidth,
+          imageHeight,
           nMagnifiedWidth = 0,
           nMagnifiedHeight = 0,
           sImgSrc = $image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '',
@@ -71,21 +76,32 @@
               width: nMagnifiedWidth,
               height: nMagnifiedHeight
             });
+            function updateDimensions() {
+              // This is the position of .magnify relative to the document.
+              oMagnifyOffset = $container.offset();
+              //Cache some values for later
+              lensWidth = $lens.width();
+              lensHeight = $lens.height();
+              imageWidth = $image.width();
+              imageHeight = $image.height();
+            }
+            updateDimensions();
+            $(window).off('resize.magnify').on('resize.magnify', function () {
+              updateDimensions();
+            });
             // Clean up
             elImage = null;
             // Execute callback
             oSettings.onload();
 
             // Handle mouse movements
-            $container.on('mousemove touchmove', function(e) {
+            $container.off().on('mousemove touchmove', function(e) {
               e.preventDefault();
               // x/y coordinates of the mouse pointer or touch point
-              // This is the position of .magnify relative to the document.
-              var oMagnifyOffset = $container.offset(),
-                /* We deduct the positions of .magnify from the mouse or touch
-                   positions relative to the document to get the mouse or touch
-                   positions relative to the container (.magnify). */
-                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oMagnifyOffset.left,
+              /* We deduct the positions of .magnify from the mouse or touch
+                 positions relative to the document to get the mouse or touch
+                 positions relative to the container (.magnify). */
+              var nX = (e.pageX || e.originalEvent.touches[0].pageX) - oMagnifyOffset.left,
                 nY = (e.pageY || e.originalEvent.touches[0].pageY) - oMagnifyOffset.top;
               // Toggle magnifying lens
               if (!$lens.is(':animated')) {
@@ -100,16 +116,16 @@
               }
               if ($lens.is(':visible')) {
                 // Move the magnifying lens with the mouse
-                var nPosX = nX - $lens.width()/2,
-                  nPosY = nY - $lens.height()/2;
+                var nPosX = nX - lensWidth/2,
+                  nPosY = nY - lensHeight/2;
                 if (nMagnifiedWidth && nMagnifiedHeight) {
                   // Change the background position of .magnify-lens according
                   // to the position of the mouse over the .magnify-image image.
                   // This allows us to get the ratio of the pixel under the
                   // mouse pointer with respect to the image and use that to
                   // position the large image inside the magnifying lens.
-                  var nRatioX = Math.round(nX/$image.width()*nMagnifiedWidth - $lens.width()/2)*-1,
-                    nRatioY = Math.round(nY/$image.height()*nMagnifiedHeight - $lens.height()/2)*-1,
+                  var nRatioX = Math.round(nX/imageWidth*nMagnifiedWidth - lensWidth/2)*-1,
+                    nRatioY = Math.round(nY/imageHeight*nMagnifiedHeight - lensHeight/2)*-1,
                     sBgPos = nRatioX + 'px ' + nRatioY + 'px';
                 }
                 // Now the lens moves with the mouse. The logic is to deduct
