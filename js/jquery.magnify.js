@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.5 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.6 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -22,6 +22,10 @@
           $anchor = $image.closest('a'),
           $container,
           $lens,
+          nContainerWidth,
+          nContainerHeight,
+          nLensWidth,
+          nLensHeight,
           nMagnifiedWidth = 0,
           nMagnifiedHeight = 0,
           sImgSrc = $image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '',
@@ -66,6 +70,11 @@
             // before the image is fully loaded.
             nMagnifiedWidth = elImage.width;
             nMagnifiedHeight = elImage.height;
+            // Cache dimensions for improved performance
+            nContainerWidth = $container.width();
+            nContainerHeight = $container.height();
+            nLensWidth = $lens.width();
+            nLensHeight = $lens.height();
             // Store dimensions for mobile plugin
             $image.data('zoomSize', {
               width: nMagnifiedWidth,
@@ -89,7 +98,7 @@
                 nY = (e.pageY || e.originalEvent.touches[0].pageY) - oMagnifyOffset.top;
               // Toggle magnifying lens
               if (!$lens.is(':animated')) {
-                if (nX<$container.width() && nY<$container.height() && nX>0 && nY>0) {
+                if (nX<nContainerWidth && nY<nContainerHeight && nX>0 && nY>0) {
                   if ($lens.is(':hidden')) {
                     $('html').addClass('magnifying'); // Hide overflow while zooming
                     $lens.fadeIn(oSettings.speed);
@@ -100,16 +109,16 @@
               }
               if ($lens.is(':visible')) {
                 // Move the magnifying lens with the mouse
-                var nPosX = nX - $lens.width()/2,
-                  nPosY = nY - $lens.height()/2;
+                var nPosX = nX - nLensWidth/2,
+                  nPosY = nY - nLensHeight/2;
                 if (nMagnifiedWidth && nMagnifiedHeight) {
                   // Change the background position of .magnify-lens according
                   // to the position of the mouse over the .magnify-image image.
                   // This allows us to get the ratio of the pixel under the
                   // mouse pointer with respect to the image and use that to
                   // position the large image inside the magnifying lens.
-                  var nRatioX = Math.round(nX/$image.width()*nMagnifiedWidth - $lens.width()/2)*-1,
-                    nRatioY = Math.round(nY/$image.height()*nMagnifiedHeight - $lens.height()/2)*-1,
+                  var nRatioX = Math.round(nX/$image.width()*nMagnifiedWidth - nLensWidth/2)*-1,
+                    nRatioY = Math.round(nY/$image.height()*nMagnifiedHeight - nLensHeight/2)*-1,
                     sBgPos = nRatioX + 'px ' + nRatioY + 'px';
                 }
                 // Now the lens moves with the mouse. The logic is to deduct
