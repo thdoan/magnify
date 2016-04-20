@@ -22,6 +22,7 @@
           $anchor = $image.closest('a'),
           $container,
           $lens,
+          oContainerOffset,
           nContainerWidth,
           nContainerHeight,
           nImageWidth,
@@ -72,7 +73,8 @@
             // before the image is fully loaded.
             nMagnifiedWidth = elImage.width;
             nMagnifiedHeight = elImage.height;
-            // Cache dimensions for improved performance
+            // Cache offset and dimensions for improved performance
+            oContainerOffset = $container.offset();
             nContainerWidth = $container.width();
             nContainerHeight = $container.height();
             nImageWidth = $image.width();
@@ -94,12 +96,12 @@
               e.preventDefault();
               // x/y coordinates of the mouse pointer or touch point
               // This is the position of .magnify relative to the document.
-              var oMagnifyOffset = $container.offset(),
-                /* We deduct the positions of .magnify from the mouse or touch
-                   positions relative to the document to get the mouse or touch
-                   positions relative to the container (.magnify). */
-                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oMagnifyOffset.left,
-                nY = (e.pageY || e.originalEvent.touches[0].pageY) - oMagnifyOffset.top;
+              //
+              // We deduct the positions of .magnify from the mouse or touch
+              // positions relative to the document to get the mouse or touch
+              // positions relative to the container (.magnify).
+              var nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset.left,
+                nY = (e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset.top;
               // Toggle magnifying lens
               if (!$lens.is(':animated')) {
                 if (nX<nContainerWidth && nY<nContainerHeight && nX>0 && nY>0) {
