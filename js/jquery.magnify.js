@@ -24,6 +24,8 @@
           $lens,
           nContainerWidth,
           nContainerHeight,
+          nImageWidth,
+          nImageHeight,
           nLensWidth,
           nLensHeight,
           nMagnifiedWidth = 0,
@@ -73,6 +75,8 @@
             // Cache dimensions for improved performance
             nContainerWidth = $container.width();
             nContainerHeight = $container.height();
+            nImageWidth = $image.width();
+            nImageHeight = $image.height();
             nLensWidth = $lens.width();
             nLensHeight = $lens.height();
             // Store dimensions for mobile plugin
@@ -117,8 +121,8 @@
                   // This allows us to get the ratio of the pixel under the
                   // mouse pointer with respect to the image and use that to
                   // position the large image inside the magnifying lens.
-                  var nRatioX = Math.round(nX/$image.width()*nMagnifiedWidth - nLensWidth/2)*-1,
-                    nRatioY = Math.round(nY/$image.height()*nMagnifiedHeight - nLensHeight/2)*-1,
+                  var nRatioX = Math.round(nX/nImageWidth*nMagnifiedWidth - nLensWidth/2)*-1,
+                    nRatioY = Math.round(nY/nImageHeight*nMagnifiedHeight - nLensHeight/2)*-1,
                     sBgPos = nRatioX + 'px ' + nRatioY + 'px';
                 }
                 // Now the lens moves with the mouse. The logic is to deduct
