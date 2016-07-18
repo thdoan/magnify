@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.6 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.7 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -11,11 +11,11 @@
   $.fn.magnify = function(oOptions) {
 
     var oSettings = $.extend({
-          /* Default options */
-          speed: 100,
-          timeout: -1,
-          onload: function(){}
-        }, oOptions),
+        /* Default options */
+        speed: 100,
+        timeout: -1,
+        onload: function(){}
+      }, oOptions),
       init = function(el) {
         // Initiate
         var $image = $(el),
@@ -39,6 +39,9 @@
           };
         // Disable zooming if no valid zoom image source
         if (!sImgSrc) return;
+
+        // Save any inline styles for resetting
+        $image.data('originalStyle', $image.attr('style'));
 
         // Activate magnification:
         // 1. Try to get zoom image dimensions
@@ -170,6 +173,17 @@
 
         elImage.src = sImgSrc;
       };
+
+    // Turn off zoom and reset to original state
+    this.destroy = function() {
+      this.each(function() {
+        var $this = $(this),
+          sStyle = $this.data('originalStyle');
+        if (sStyle) $this.attr('style', sStyle);
+        else $this.removeAttr('style');
+        $this.unwrap('.magnify').prevAll('.magnify-lens').remove();
+      });
+    }
 
     return this.each(function() {
       // Initiate magnification powers
