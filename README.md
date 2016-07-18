@@ -75,7 +75,7 @@ Name      | Type     | Default | Description
 
 ## Methods
 
-To use a public method, you need to assign the element that you called `.magnify()` on from step 3 to a variable. Sample usage:
+To use a public method, you need to assign the element that you called `.magnify()` on to a variable. Sample usage:
 
 ```html
 <script>
