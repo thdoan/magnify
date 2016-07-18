@@ -73,6 +73,25 @@ Name      | Type     | Default | Description
 `timeout` | number   | -1      | The wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
 `onload`  | function |         | Callback function to execute after magnification is loaded.
 
+## Methods
+
+To use a public method, you need to assign the element that you called `.magnify()` on from step 3 to a variable. Sample usage:
+
+```html
+<script>
+$(document).ready(function() {
+  // Enable zoom
+  var $zoom = $('.zoom').magnify();
+  // Disable zoom
+  $zoom.destroy();
+});
+</script>
+```
+
+Name        | Description
+----------- | -----------
+`destroy()` | Disable zoom and reset to the original state.
+
 ## Installation
 
 Choose from one of the following methods:
