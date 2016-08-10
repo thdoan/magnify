@@ -209,7 +209,6 @@
 
     // Handle window resizing
     $(window).resize(debounce(function() {
-    console.log(111);
       $that.destroy();
       $that.each(function() {
         init(this);
