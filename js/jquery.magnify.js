@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.7 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.8 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -10,12 +10,34 @@
 (function($) {
   $.fn.magnify = function(oOptions) {
 
-    var oSettings = $.extend({
+    var $that = this, // Preserve scope
+      oSettings = $.extend({
         /* Default options */
         speed: 100,
         timeout: -1,
         onload: function(){}
       }, oOptions),
+      // Based on debouncing function by John Hann (simplified)
+      // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+      debounce = function(func) {
+        var timeout; // Handle to setTimeout async task (detection period)
+        // Return the new debounced function which executes the original
+        // function only once until the detection period expires
+        return function debounced() {
+          var obj = this,     // Reference to original context object
+            args = arguments; // Arguments at execution time
+          // Execute after some delay
+          function delayed() {
+            func.apply(obj, args);
+            // Clear timeout handle
+            timeout = null;
+          }
+          // Stop any current detection period
+          if (timeout) clearTimeout(timeout);
+          // Reset the detection period
+          timeout = setTimeout(delayed, 100);
+        };
+      },
       init = function(el) {
         // Initiate
         var $image = $(el),
@@ -71,12 +93,12 @@
             $lens = $container.children('.magnify-lens');
             // Remove the "Loading..." text
             $lens.removeClass('loading');
-            // This code is inside the .load() function, which is important.
-            // The width and height of the object would return 0 if accessed
-            // before the image is fully loaded.
+            // Cache offsets and dimensions for improved performance
+            // NOTE: This code is inside the load() function, which is
+            // important. The width and height of the object would return 0 if
+            // accessed before the image is fully loaded.
             nMagnifiedWidth = elImage.width;
             nMagnifiedHeight = elImage.height;
-            // Cache offset and dimensions for improved performance
             oContainerOffset = $container.offset();
             nContainerWidth = $container.width();
             nContainerHeight = $container.height();
@@ -184,6 +206,15 @@
         $this.unwrap('.magnify').prevAll('.magnify-lens').remove();
       });
     }
+
+    // Handle window resizing
+    $(window).resize(debounce(function() {
+    console.log(111);
+      $that.destroy();
+      $that.each(function() {
+        init(this);
+      })
+    }));
 
     return this.each(function() {
       // Initiate magnification powers

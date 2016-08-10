@@ -58,13 +58,14 @@ body {
 <!--<![endif]-->
 <script src="js/jquery.magnify.js"></script>
 <script>
+var $zoom;
 $(document).ready(function() {
   // Initiate magnification powers
-  $('.zoom').magnify({
-    onload: function() {
-      console.log('Magnification powers activated!');
-    }
-  });
+  $zoom = $('.zoom').magnify({
+      onload: function() {
+        console.log('Magnification powers activated!');
+      }
+    });
 });
 </script>
 
