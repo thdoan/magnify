@@ -40,7 +40,7 @@
 
 <h3><a id="step-1-link-the-required-files" class="anchor" href="#step-1-link-the-required-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 1: Link the required files</h3>
 
-<div class="highlight highlight-html">
+<div class="highlight">
   <pre>&lt;link rel="stylesheet" href="/css/magnify.css"&gt;
 &lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"&gt;&lt;/script&gt;
 &lt;script src="/js/jquery.magnify.js"&gt;&lt;/script&gt;
@@ -54,13 +54,13 @@
 
 <p>The URI to the large image can be placed in the <code>data-magnify-src</code> attribute (as shown below) or passed as the <code>src</code> option when calling the <code>.magnify()</code> function.</p>
 
-<div class="highlight highlight-html">
+<div class="highlight">
   <pre>&lt;img src="/images/product.jpg" class="zoom" data-magnify-src="/images/product-large.jpg"&gt;</pre>
 </div>
 
 <p>If the <code>data-magnify-src</code> attribute or <code>src</code> option is not used, then Magnify JS will try to grab the large image from the parent <code>&lt;a&gt;</code> tag, e.g.:</p>
 
-<div class="highlight highlight-html">
+<div class="highlight">
   <pre>&lt;a href="/images/product-large.jpg"&gt;
   &lt;img src="/images/product.jpg" class="zoom"&gt;
 &lt;/a&gt;</pre>
@@ -70,7 +70,7 @@
 
 <p>Make sure this comes after the two required JavaScript files from Step 1 are loaded.</p>
 
-<div class="highlight highlight-html">
+<div class="highlight">
   <pre>&lt;script&gt;
 $(document).ready(function() {
   $('.zoom').magnify();
@@ -80,7 +80,7 @@ $(document).ready(function() {
 
 <p>Calling the <code>.magnify()</code> function with options:</p>
 
-<div class="highlight highlight-html">
+<div class="highlight">
   <pre>&lt;script&gt;
 $(document).ready(function() {
   $('.zoom').magnify({
@@ -136,7 +136,7 @@ $(document).ready(function() {
 
 <p>To use a public method, you need to assign the element that you called <code>.magnify()</code> on to a variable. Sample usage:</p>
 
-<div class="highlight highlight-html">
+<div class="highlight">
   <pre>&lt;script&gt;
 $(document).ready(function() {
   // Enable zoom
@@ -161,6 +161,23 @@ $(document).ready(function() {
   </tr>
 </tbody>
 </table>
+
+<h2><a id="events" class="anchor" href="#events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Events</h2>
+
+<p>Magnify triggers two custom events on the <code>html</code> element: <code>magnifystart</code> when you enter zoom mode and <code>magnifyend</code> when you exit zoom mode. Sample usage:</p>
+
+<div class="highlight">
+  <pre>$('html').on({
+  magnifystart: function() {
+    console.log('magnifystart event fired');
+  },
+  magnifyend: function() {
+    console.log('magnifyend event fired');
+  }
+});</pre>
+</div>
+
+<p>When in zoom mode, the <code>magnifying</code> class is also added to the <code>html</code> element, so you can change the style when zooming.</p>
 
 <h2><a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
