@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.8 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.9 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -17,27 +17,6 @@
         timeout: -1,
         onload: function(){}
       }, oOptions),
-      // Based on debouncing function by John Hann (simplified)
-      // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
-      debounce = function(func) {
-        var timeout; // Handle to setTimeout async task (detection period)
-        // Return the new debounced function which executes the original
-        // function only once until the detection period expires
-        return function debounced() {
-          var obj = this,     // Reference to original context object
-            args = arguments; // Arguments at execution time
-          // Execute after some delay
-          function delayed() {
-            func.apply(obj, args);
-            // Clear timeout handle
-            timeout = null;
-          }
-          // Stop any current detection period
-          if (timeout) clearTimeout(timeout);
-          // Reset the detection period
-          timeout = setTimeout(delayed, 100);
-        };
-      },
       init = function(el) {
         // Initiate
         var $image = $(el),
@@ -56,7 +35,7 @@
           sImgSrc = $image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '',
           hideLens = function() {
             if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed, function() {
-              $('html').removeClass('magnifying'); // Reset overflow
+              $('html').removeClass('magnifying').trigger('magnifyend'); // Reset overflow-x
             });
           };
         // Disable zooming if no valid zoom image source
@@ -131,7 +110,7 @@
               if (!$lens.is(':animated')) {
                 if (nX<nContainerWidth && nY<nContainerHeight && nX>0 && nY>0) {
                   if ($lens.is(':hidden')) {
-                    $('html').addClass('magnifying'); // Hide overflow while zooming
+                    $('html').addClass('magnifying').trigger('magnifystart'); // Hide overflow-x while zooming
                     $lens.fadeIn(oSettings.speed);
                   }
                 } else {
@@ -194,6 +173,15 @@
         });
 
         elImage.src = sImgSrc;
+      },
+      // Simple debounce
+      nTimer = 0,
+      refresh = function() {
+        clearTimeout(nTimer);
+        nTimer = setTimeout(function() {
+          $that.destroy();
+          $that.magnify(oSettings);
+        }, 100);
       };
 
     // Turn off zoom and reset to original state
@@ -205,15 +193,12 @@
         else $this.removeAttr('style');
         $this.unwrap('.magnify').prevAll('.magnify-lens').remove();
       });
+      // Unregister event handler
+      $(window).off('resize', refresh);
     }
 
     // Handle window resizing
-    $(window).resize(debounce(function() {
-      $that.destroy();
-      $that.each(function() {
-        init(this);
-      })
-    }));
+    $(window).resize(refresh);
 
     return this.each(function() {
       // Initiate magnification powers

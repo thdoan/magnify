@@ -11,7 +11,7 @@ If you don't use jQuery, then you can use [TrySound's vanilla JS version](https:
 
 ### Step 1: Link the required files
 
-```html
+```
 <link rel="stylesheet" href="/css/magnify.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script src="/js/jquery.magnify.js"></script>
@@ -25,13 +25,13 @@ You have complete control over the style and size of the lens by modifying `magn
 
 The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the `src` option when calling the `.magnify()` function.
 
-```html
+```
 <img src="/images/product.jpg" class="zoom" data-magnify-src="/images/product-large.jpg">
 ```
 
 If the `data-magnify-src` attribute or `src` option is not used, then Magnify will try to grab the large image from the parent `<a>` tag, e.g.:
 
-```html
+```
 <a href="/images/product-large.jpg">
   <img src="/images/product.jpg" class="zoom">
 </a>
@@ -41,7 +41,7 @@ If the `data-magnify-src` attribute or `src` option is not used, then Magnify wi
 
 Make sure this comes after the two required JavaScript files from Step 1 are loaded.
 
-```html
+```
 <script>
 $(document).ready(function() {
   $('.zoom').magnify();
@@ -51,7 +51,7 @@ $(document).ready(function() {
 
 Calling the `.magnify()` function with options:
 
-```html
+```
 <script>
 $(document).ready(function() {
   $('.zoom').magnify({
@@ -77,7 +77,7 @@ Name      | Type     | Default | Description
 
 To use a public method, you need to assign the element that you called `.magnify()` on to a variable. Sample usage:
 
-```html
+```
 <script>
 $(document).ready(function() {
   // Enable zoom
@@ -91,6 +91,23 @@ $(document).ready(function() {
 Name        | Description
 ----------- | -----------
 `destroy()` | Disable zoom and reset to the original state.
+
+## Events
+
+Magnify triggers two custom events on the `html` element: `magnifystart` when you enter zoom mode and `magnifyend` when you exit zoom mode. Sample usage:
+
+```
+$('html').on({
+  magnifystart: function() {
+    console.log('magnifystart event fired');
+  },
+  magnifyend: function() {
+    console.log('magnifyend event fired');
+  }
+});
+```
+
+When in zoom mode, the `magnifying` class is also added to the `html` element, so you can change the style when zooming.
 
 ## Installation
 
