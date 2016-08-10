@@ -56,7 +56,7 @@
           sImgSrc = $image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '',
           hideLens = function() {
             if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed, function() {
-              $('html').removeClass('magnifying'); // Reset overflow
+              $('html').removeClass('magnifying').trigger('magnifying'); // Reset overflow
             });
           };
         // Disable zooming if no valid zoom image source
@@ -131,7 +131,7 @@
               if (!$lens.is(':animated')) {
                 if (nX<nContainerWidth && nY<nContainerHeight && nX>0 && nY>0) {
                   if ($lens.is(':hidden')) {
-                    $('html').addClass('magnifying'); // Hide overflow while zooming
+                    $('html').addClass('magnifying').trigger('magnifying'); // Hide overflow while zooming
                     $lens.fadeIn(oSettings.speed);
                   }
                 } else {
