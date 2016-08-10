@@ -50,6 +50,8 @@ body {
   <img id="sample-glasses" src="images/glasses.jpg" alt="Sample image" class="zoom">
 </a>
 
+<p><br><button>Disable Zoom</button><br><br>Events are logged to the console.</p>
+
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <![endif]-->
@@ -67,7 +69,17 @@ $(document).ready(function() {
       }
     });
 });
+$('button').click(function() {
+  $zoom.destroy();
+});
+$('html').on({
+  magnifystart: function() {
+    console.log('\'magnifystart\' event fired');
+  },
+  magnifyend: function() {
+    console.log('\'magnifyend\' event fired');
+  }
+});
 </script>
-
 </body>
 </html>
