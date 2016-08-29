@@ -3,10 +3,6 @@ html.magnifying > body {
 }
 .magnify {
   position: relative;
-  width: inherit;
-  max-width: inherit;
-  height: inherit;
-  max-height: inherit;
   display: inline-block;
 }
 .magnify .magnify-lens {
