@@ -81,8 +81,8 @@
             oContainerOffset = $container.offset();
             nContainerWidth = $container.width();
             nContainerHeight = $container.height();
-            nImageWidth = $image.width();
-            nImageHeight = $image.height();
+            nImageWidth = $image.innerWidth();
+            nImageHeight = $image.innerHeight();
             nLensWidth = $lens.width();
             nLensHeight = $lens.height();
             // Store dimensions for mobile plugin
