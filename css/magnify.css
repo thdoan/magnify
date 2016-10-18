@@ -27,7 +27,7 @@ html.magnifying > body {
 }
 .magnify .magnify-lens.loading {
   background: #333 !important;
-  opacity: 0.75;
+  opacity: 0.8;
 }
 .magnify .magnify-lens.loading:after {
   /* Loading text */
