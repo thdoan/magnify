@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.11 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.12 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -153,6 +153,21 @@
             }
             // Ensure lens is closed when tapping outside of it
             $('body').not($container).on('touchstart', hideLens);
+
+            // Image map needs to be on the same DOM level as image source
+            // See https://github.com/jquery/jquery/issues/3364
+            var sUsemap = $image.attr('usemap');
+            if (sUsemap) {
+              $image.after($('map[name=' + sUsemap.slice(1) + ']'));
+              $container.one('click', function(e) {
+                // Trigger click on image below lens at current cursor position
+                $lens.hide();
+                document.elementFromPoint(
+                  e.pageX || e.originalEvent.touches[0].pageX,
+                  e.pageY || e.originalEvent.touches[0].pageY
+                ).click();
+              });
+            }
 
             if ($anchor.length) {
               // Make parent anchor inline-block to have correct dimensions
