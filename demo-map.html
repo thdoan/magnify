@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<title>jQuery Magnify Image Map Demo</title>
+<meta name="author" content="Tom Doan">
+<meta name="description" content="This is a live demo of the jQuery Magnify plugin.">
+<link rel="stylesheet" href="css/magnify.css">
+<style>
+/* Demo CSS */
+html {
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+body {
+  width: 100%;
+  height: 100%;
+  display: table-cell;
+  font-family: sans-serif;
+  font-size: 12px;
+  padding: 1em;
+  text-align: center;
+  vertical-align: middle;
+}
+area {
+  outline: none;
+}
+#sample-map {
+  width: 100%;
+  max-width: 240px;
+}
+/* Required for transparent PNGs */
+.magnify-lens {
+  background-color: #fff !important;
+}
+</style>
+</head>
+<body>
+
+<img id="sample-map" src="images/searchengines.png" alt="Sample image map" class="zoom" data-magnify-src="images/searchengines-large.png" usemap="#image-map">
+<map name="image-map">
+  <area href="https://www.google.com/" alt="" title="Go to Google" shape="rect" coords="0,0,240,99">
+  <area href="https://www.yahoo.com/" alt="" title="Go to Yahoo!" shape="rect" coords="0,100,240,179">
+  <area href="http://www.bing.com/" alt="" title="Go to Bing" shape="rect" coords="0,180,240,264">
+</map>
+
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<![endif]-->
+<!--[if IE 9]><!-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="js/jquery.magnify.js"></script>
+<script>
+$(document).ready(function() {
+  // Initiate magnification powers
+  $('.zoom').magnify({
+    onload: function() {
+      console.log('Magnification powers activated!');
+    }
+  });
+});
+</script>
+</body>
+</html>
