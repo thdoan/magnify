@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.12 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.11 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -70,8 +70,6 @@
               $image.before('<div class="magnify-lens loading" style="background:url(\'' + sImgSrc + '\') no-repeat 0 0"></div>');
             }
             $lens = $container.children('.magnify-lens');
-            // Sync lens background color for transparent PNGs
-            $lens.css('background-color', $container.parent().css('background-color'));
             // Remove the "Loading..." text
             $lens.removeClass('loading');
             // Cache offsets and dimensions for improved performance
