@@ -159,13 +159,15 @@
             var sUsemap = $image.attr('usemap');
             if (sUsemap) {
               $image.after($('map[name=' + sUsemap.slice(1) + ']'));
-              $container.one('click', function(e) {
+              $container.click(function(e) {
                 // Trigger click on image below lens at current cursor position
-                $lens.hide();
-                document.elementFromPoint(
-                  e.pageX || e.originalEvent.touches[0].pageX,
-                  e.pageY || e.originalEvent.touches[0].pageY
-                ).click();
+                if (e.pageX || e.pageY) {
+                  $lens.hide();
+                  document.elementFromPoint(
+                    e.pageX || e.originalEvent.touches[0].pageX,
+                    e.pageY || e.originalEvent.touches[0].pageY
+                  ).click();
+                }
               });
             }
 
