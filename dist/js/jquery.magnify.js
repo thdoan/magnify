@@ -149,7 +149,7 @@
                 }
               },
               'mouseenter': function() {
-                // Need to cache offsets here as well to support accordions
+                // Need to update offsets here to support accordions
                 oContainerOffset = $container.offset();
               },
               'mouseleave': hideLens
