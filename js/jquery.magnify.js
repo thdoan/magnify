@@ -149,7 +149,7 @@
                 }
               },
               'mouseenter': function() {
-                // Need to cache offsets here as well to support accordions
+                // Need to update offsets here to support accordions
                 oContainerOffset = $container.offset();
               },
               'mouseleave': hideLens
@@ -164,13 +164,15 @@
             // Ensure lens is closed when tapping outside of it
             $('body').not($container).on('touchstart', hideLens);
 
-            // Image map needs to be on the same DOM level as image source
-            // See https://github.com/jquery/jquery/issues/3364
+            // Support image map click-throughs while zooming
             var sUsemap = $image.attr('usemap');
             if (sUsemap) {
+              // Image map needs to be on the same DOM level as image source
               $image.after($('map[name=' + sUsemap.slice(1) + ']'));
               $container.click(function(e) {
                 // Trigger click on image below lens at current cursor position
+                // NOTE: This is not supported in Firefox because of a known
+                // bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1227469
                 if (e.pageX || e.pageY) {
                   $lens.hide();
                   document.elementFromPoint(
