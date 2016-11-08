@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.12 by Tom Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.14 by Tom Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by Tom Doan is licensed under the MIT License.
@@ -76,8 +76,6 @@
             // NOTE: This code is inside the load() function, which is
             // important. The width and height of the object would return 0 if
             // accessed before the image is fully loaded.
-            nMagnifiedWidth = elImage.width;
-            nMagnifiedHeight = elImage.height;
             oContainerOffset = $container.offset();
             nContainerWidth = $container.width();
             nContainerHeight = $container.height();
@@ -85,6 +83,8 @@
             nImageHeight = $image.innerHeight(); // Correct height with padding
             nLensWidth = $lens.width();
             nLensHeight = $lens.height();
+            nMagnifiedWidth = elImage.width;
+            nMagnifiedHeight = elImage.height;
             // Store dimensions for mobile plugin
             $image.data('zoomSize', {
               width: nMagnifiedWidth,
@@ -94,58 +94,68 @@
             elImage = null;
             // Execute callback
             oSettings.onload();
-
             // Handle mouse movements
-            $container.on('mousemove touchmove', function(e) {
-              e.preventDefault();
-              // x/y coordinates of the mouse pointer or touch point
-              // This is the position of .magnify relative to the document.
-              //
-              // We deduct the positions of .magnify from the mouse or touch
-              // positions relative to the document to get the mouse or touch
-              // positions relative to the container (.magnify).
-              var nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset.left,
-                nY = (e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset.top;
-              // Toggle magnifying lens
-              if (!$lens.is(':animated')) {
-                if (nX<nContainerWidth && nY<nContainerHeight && nX>0 && nY>0) {
-                  if ($lens.is(':hidden')) {
-                    $('html').addClass('magnifying').trigger('magnifystart'); // Hide overflow-x while zooming
-                    $lens.fadeIn(oSettings.speed);
+            $container.off().on({
+              'mousemove touchmove': function(e) {
+                e.preventDefault();
+                // Reinitialize if image initially hidden
+                if (!nContainerHeight) {
+                  refresh();
+                  return;
+                }
+                // x/y coordinates of the mouse pointer or touch point
+                // This is the position of .magnify relative to the document.
+                //
+                // We deduct the positions of .magnify from the mouse or touch
+                // positions relative to the document to get the mouse or touch
+                // positions relative to the container (.magnify).
+                var nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset.left,
+                  nY = (e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset.top;
+                // Toggle magnifying lens
+                if (!$lens.is(':animated')) {
+                  if (nX<nContainerWidth && nY<nContainerHeight && nX>0 && nY>0) {
+                    if ($lens.is(':hidden')) {
+                      $('html').addClass('magnifying').trigger('magnifystart'); // Hide overflow-x while zooming
+                      $lens.fadeIn(oSettings.speed);
+                    }
+                  } else {
+                    hideLens();
                   }
-                } else {
-                  hideLens();
                 }
-              }
-              if ($lens.is(':visible')) {
-                // Move the magnifying lens with the mouse
-                var nPosX = nX - nLensWidth/2,
-                  nPosY = nY - nLensHeight/2;
-                if (nMagnifiedWidth && nMagnifiedHeight) {
-                  // Change the background position of .magnify-lens according
-                  // to the position of the mouse over the .magnify-image image.
-                  // This allows us to get the ratio of the pixel under the
-                  // mouse pointer with respect to the image and use that to
-                  // position the large image inside the magnifying lens.
-                  var nRatioX = Math.round(nX/nImageWidth*nMagnifiedWidth - nLensWidth/2)*-1,
-                    nRatioY = Math.round(nY/nImageHeight*nMagnifiedHeight - nLensHeight/2)*-1,
-                    sBgPos = nRatioX + 'px ' + nRatioY + 'px';
+                if ($lens.is(':visible')) {
+                  // Move the magnifying lens with the mouse
+                  var nPosX = nX - nLensWidth/2,
+                    nPosY = nY - nLensHeight/2;
+                  if (nMagnifiedWidth && nMagnifiedHeight) {
+                    // Change the background position of .magnify-lens according
+                    // to the position of the mouse over the .magnify-image image.
+                    // This allows us to get the ratio of the pixel under the
+                    // mouse pointer with respect to the image and use that to
+                    // position the large image inside the magnifying lens.
+                    var nRatioX = Math.round(nX/nImageWidth*nMagnifiedWidth - nLensWidth/2)*-1,
+                      nRatioY = Math.round(nY/nImageHeight*nMagnifiedHeight - nLensHeight/2)*-1,
+                      sBgPos = nRatioX + 'px ' + nRatioY + 'px';
+                  }
+                  // Now the lens moves with the mouse. The logic is to deduct
+                  // half of the lens's width and height from the mouse
+                  // coordinates to place it with its center at the mouse
+                  // coordinates. If you hover on the image now, you should see
+                  // the magnifying lens in action.
+                  $lens.css({
+                    top: Math.round(nPosY) + 'px',
+                    left: Math.round(nPosX) + 'px',
+                    backgroundPosition: sBgPos || ''
+                  });
                 }
-                // Now the lens moves with the mouse. The logic is to deduct
-                // half of the lens's width and height from the mouse
-                // coordinates to place it with its center at the mouse
-                // coordinates. If you hover on the image now, you should see
-                // the magnifying lens in action.
-                $lens.css({
-                  top: Math.round(nPosY) + 'px',
-                  left: Math.round(nPosX) + 'px',
-                  backgroundPosition: sBgPos || ''
-                });
-              }
+              },
+              'mouseenter': function() {
+                // Need to cache offsets here as well to support accordions
+                oContainerOffset = $container.offset();
+              },
+              'mouseleave': hideLens
             });
 
             // Prevent magnifying lens from getting "stuck"
-            $container.mouseleave(hideLens);
             if (oSettings.timeout>=0) {
               $container.on('touchend', function() {
                 setTimeout(hideLens, oSettings.timeout);
@@ -159,13 +169,15 @@
             var sUsemap = $image.attr('usemap');
             if (sUsemap) {
               $image.after($('map[name=' + sUsemap.slice(1) + ']'));
-              $container.one('click', function(e) {
+              $container.click(function(e) {
                 // Trigger click on image below lens at current cursor position
-                $lens.hide();
-                document.elementFromPoint(
-                  e.pageX || e.originalEvent.touches[0].pageX,
-                  e.pageY || e.originalEvent.touches[0].pageY
-                ).click();
+                if (e.pageX || e.pageY) {
+                  $lens.hide();
+                  document.elementFromPoint(
+                    e.pageX || e.originalEvent.touches[0].pageX,
+                    e.pageY || e.originalEvent.touches[0].pageY
+                  ).click();
+                }
               });
             }
 
@@ -198,6 +210,8 @@
           $that.magnify(oSettings);
         }, 100);
       };
+
+    /* Public methods */
 
     // Turn off zoom and reset to original state
     this.destroy = function() {
