@@ -13,7 +13,7 @@
     "url": "https://github.com/thdoan/magnify/issues"
   },
   "license": "MIT",
-  "author": "Tom Doan <thdoan@gmail.com> (http://www.tohodo.com/)",
+  "author": "T. H. Doan <thdoan@gmail.com> (http://www.tohodo.com/)",
   "main": "dist/js/jquery.magnify.js",
   "dependencies": {
     "jquery": ">=1.7.0"
