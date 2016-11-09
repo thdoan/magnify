@@ -115,6 +115,7 @@ When in zoom mode, the `magnifying` class is also added to the `html` element, s
 
 Choose from one of the following methods:
 
+- `git clone git@github.com:thdoan/magnify.git`
 - `git clone https://github.com/thdoan/magnify.git`
 - `bower install magnify`
 - `npm install magnify`
