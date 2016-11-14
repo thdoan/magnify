@@ -176,8 +176,8 @@
                 if (e.pageX || e.pageY) {
                   $lens.hide();
                   document.elementFromPoint(
-                    e.pageX || e.originalEvent.touches[0].pageX,
-                    e.pageY || e.originalEvent.touches[0].pageY
+                    e.clientX || e.originalEvent.touches[0].clientX,
+                    e.clientY || e.originalEvent.touches[0].clientY
                   ).click();
                 }
               });
