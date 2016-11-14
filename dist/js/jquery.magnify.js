@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.15 by T. H. Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.16 by T. H. Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by T. H. Doan is licensed under the MIT License.
@@ -56,6 +56,8 @@
           load: function() {
             // [2] Got image dimensions OK
 
+            var nX, nY;
+
             // Fix overlap bug at the edges during magnification
             $image.css('display', 'block');
             // Create container div if necessary
@@ -109,8 +111,8 @@
                 // We deduct the positions of .magnify from the mouse or touch
                 // positions relative to the document to get the mouse or touch
                 // positions relative to the container (.magnify).
-                var nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset.left,
-                  nY = (e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset.top;
+                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset.left,
+                nY = (e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset.top;
                 // Toggle magnifying lens
                 if (!$lens.is(':animated')) {
                   if (nX<nContainerWidth && nY<nContainerHeight && nX>0 && nY>0) {
@@ -167,18 +169,30 @@
             // Support image map click-throughs while zooming
             var sUsemap = $image.attr('usemap');
             if (sUsemap) {
+              var $map = $('map[name=' + sUsemap.slice(1) + ']');
               // Image map needs to be on the same DOM level as image source
-              $image.after($('map[name=' + sUsemap.slice(1) + ']'));
+              $image.after($map);
               $container.click(function(e) {
                 // Trigger click on image below lens at current cursor position
-                // NOTE: This is not supported in Firefox because of a known
-                // bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1227469
-                if (e.pageX || e.pageY) {
+                if (e.clientX || e.clientY) {
                   $lens.hide();
-                  document.elementFromPoint(
-                    e.clientX || e.originalEvent.touches[0].clientX,
-                    e.clientY || e.originalEvent.touches[0].clientY
-                  ).click();
+                  var elPoint = document.elementFromPoint(
+                      e.clientX || e.originalEvent.touches[0].clientX,
+                      e.clientY || e.originalEvent.touches[0].clientY
+                    );
+                  if (elPoint.nodeName==='AREA') {
+                    elPoint.click();
+                  } else {
+                    // Workaround for buggy implementation of elementFromPoint()
+                    // See https://bugzilla.mozilla.org/show_bug.cgi?id=1227469
+                    $('area', $map).each(function() {
+                      var a = $(this).attr('coords').split(',');
+                      if (nX>=a[0] && nX<=a[2] && nY>=a[1] && nY<=a[3]) {
+                        this.click();
+                        return false;
+                      }
+                    });
+                  }
                 }
               });
             }
