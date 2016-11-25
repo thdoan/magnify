@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.16 by T. H. Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.17 by T. H. Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by T. H. Doan is licensed under the MIT License.
@@ -233,10 +233,14 @@
     this.destroy = function() {
       this.each(function() {
         var $this = $(this),
+          $lens = $this.prev('div.magnify-lens'),
           sStyle = $this.data('originalStyle');
-        if (sStyle) $this.attr('style', sStyle);
-        else $this.removeAttr('style');
-        $this.unwrap('.magnify').prevAll('.magnify-lens').remove();
+        if ($this.parent('div.magnify').length && $lens.length) {
+          if (sStyle) $this.attr('style', sStyle);
+          else $this.removeAttr('style');
+          $this.unwrap();
+          $lens.remove();
+        }
       });
       // Unregister event handler
       $(window).off('resize', refresh);
