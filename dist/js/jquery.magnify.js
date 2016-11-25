@@ -233,10 +233,15 @@
     this.destroy = function() {
       this.each(function() {
         var $this = $(this),
-          sStyle = $this.data('originalStyle');
+			$magnifyParent = $this.parent('.magnify'),
+			sStyle = $this.data('originalStyle');
         if (sStyle) $this.attr('style', sStyle);
         else $this.removeAttr('style');
-        $this.unwrap('.magnify').prevAll('.magnify-lens').remove();
+		
+		if($magnifyParent.length) {
+			$magnifyParent.replaceWith($this);
+		}
+        $this.prevAll('.magnify-lens').remove();
       });
       // Unregister event handler
       $(window).off('resize', refresh);
