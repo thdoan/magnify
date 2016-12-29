@@ -83,7 +83,7 @@ $(document).ready(function() {
   });
   // Initiate magnification powers
   $('.zoom').magnify({
-    onload: function() {
+    afterLoad: function() {
       console.log('Magnification powers activated!');
     }
   });

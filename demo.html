@@ -68,7 +68,7 @@ var $zoom;
 $(document).ready(function() {
   // Initiate magnification powers
   $zoom = $('.zoom').magnify({
-      onload: function() {
+      afterLoad: function() {
         console.log('Magnification powers activated!');
       }
     });

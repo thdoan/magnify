@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v1.6.17 by T. H. Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v1.6.18 by T. H. Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by T. H. Doan is licensed under the MIT License.
@@ -15,7 +15,7 @@
         /* Default options */
         speed: 100,
         timeout: -1,
-        onload: function(){}
+        afterLoad: function(){}
       }, oOptions),
       init = function(el) {
         // Initiate
@@ -95,7 +95,7 @@
             // Clean up
             elImage = null;
             // Execute callback
-            oSettings.onload();
+            oSettings.afterLoad();
             // Handle mouse movements
             $container.off().on({
               'mousemove touchmove': function(e) {
