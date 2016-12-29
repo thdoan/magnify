@@ -3,6 +3,5 @@ description: A simple, lightweight jQuery magnifying glass zoom plugin.
 google_analytics: UA-2843793-6
 show_downloads: true
 theme: jekyll-theme-slate
-
 gems:
   - jekyll-mentions
