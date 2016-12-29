@@ -4,13 +4,13 @@ Magnify is a simple, lightweight jQuery plugin that adds a magnifying glass styl
 
 If you don't use jQuery, then you can use [TrySound's vanilla JS version](https://github.com/TrySound/magnify/tree/fix-vanillajs).
 
-**[See a demo &raquo;](http://thdoan.github.io/magnify/demo.html)**
+**[See a demo &raquo;](https://thdoan.github.io/magnify/demo.html)**
 
-**[See a demo with mobile plugin &raquo;](http://thdoan.github.io/magnify/demo-mobile.html)**
+**[See a demo with mobile plugin &raquo;](https://thdoan.github.io/magnify/demo-mobile.html)**
 
-**[See a demo with an image map &raquo;](http://thdoan.github.io/magnify/demo-map.html)**
+**[See a demo with an image map &raquo;](https://thdoan.github.io/magnify/demo-map.html)**
 
-**[See a demo inside an accordion &raquo;](http://thdoan.github.io/magnify/demo-accordion.html)**
+**[See a demo inside an accordion &raquo;](https://thdoan.github.io/magnify/demo-accordion.html)**
 
 ## Getting Started
 
