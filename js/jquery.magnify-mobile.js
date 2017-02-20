@@ -43,7 +43,7 @@
     '}' +
     '</style>').appendTo('head');
   // Ensure .magnify is rendered
-  $(window).load(function() {
+  $(window).on('load', function() {
     $('body').append('<div class="magnify-mobile"><div class="lens-mobile"></div></div>');
     var $lensMobile = $('.lens-mobile');
     // Only enable mobile zoom on smartphones
