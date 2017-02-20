@@ -17,11 +17,11 @@ If you don't use jQuery, then you can use [TrySound's vanilla JS version](https:
 ### Step 1: Link the required files
 
 ```
-<link rel="stylesheet" href="//cdn.rawgit.com/thdoan/magnify/master/dist/css/magnify.css">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script src="//cdn.rawgit.com/thdoan/magnify/master/dist/js/jquery.magnify.js"></script>
+<link rel="stylesheet" href="/css/magnify.css">
+<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="/js/jquery.magnify.js"></script>
 <!-- Optional mobile plugin (uncomment the line below to enable): -->
-<!-- <script src="//cdn.rawgit.com/thdoan/magnify/master/dist/js/jquery.magnify-mobile.js"></script> -->
+<!-- <script src="/js/jquery.magnify-mobile.js"></script> -->
 ```
 
 You have complete control over the style and size of the lens by modifying `magnify.css`. Magnify has support for touch devices, but for a better zoom experience you can load the optional mobile plugin by uncommenting the last line above. It is recommended to load the JavaScript files at the bottom just before the closing `</body>` tag if possible.
