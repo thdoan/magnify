@@ -69,14 +69,20 @@ $(document).ready(function() {
 
 ## Options
 
-Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to "data-magnify-" (e.g., `data-magnify-src="..."`).
+Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to "data-magnify-" (e.g., `data-magnify-src="..."`). Do not use camel case for data attributes.
 
-Name        | Type     | Default | Description
------------ | -------- | ------- | -----------
-`speed`     | number   | 100     | The fade-in/out animation speed in ms when the lens moves on/off the image.
-`src`       | string   | ''      | The URI of the large image that will be shown in the magnifying lens.
-`timeout`   | number   | -1      | The wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
-`afterLoad` | function |         | Callback function to execute after magnification is loaded.
+Name              | Type     | Default             | Description
+-----------       | -------- | -------             | -----------
+`speed`           | number   | 100                 | The fade-in/out animation speed in ms when the lens moves on/off the image.
+`src`             | string   | ''                  | The URI of the large image that will be shown in the magnifying lens.
+`timeout`         | number   | -1                  | The wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
+`afterLoad`       | function |                     | Callback function to execute after magnification is loaded.
+`imageheight`     | number   | $image.innerHeight()| Override the measured image height
+`imagewidth`      | number   | $image.innerWidth() | Override the measured image width
+`lensheight`      | number   | $lens.height()      | Override the actual lens height
+`lensWidth`       | number   | $lens.width()       | Override the actual lens width
+`containerHeight` | number   | $container.height() | Override the actual container height
+`containerWidth`  | number   | $container.width()  | Override the actual container width
 
 ## Methods
 
