@@ -38,6 +38,15 @@
               $('html').removeClass('magnifying').trigger('magnifyend'); // Reset overflow-x
             });
           };
+
+        //Initialize some optional settings
+        oSettings.imageWidth = $image.attr('data-magnify-imagewidth') || oSettings.imageWidth || null;
+        oSettings.imageHeight = $image.attr('data-magnify-imageheight') || oSettings.imageHeight || null;
+        oSettings.lensWidth = $image.attr('data-magnify-lenswidth') || oSettings.lensWidth || null;
+        oSettings.lensHeight = $image.attr('data-magnify-lensheight') || oSettings.lensHeight || null;
+        oSettings.containerWidth = $image.attr('data-magnify-containerwidth') || oSettings.containerWidth || null;
+        oSettings.containerHeight = $image.attr('data-magnify-containerheight') || oSettings.containerHeight || null;
+
         // Disable zooming if no valid zoom image source
         if (!sImgSrc) return;
 
@@ -79,12 +88,12 @@
             // important. The width and height of the object would return 0 if
             // accessed before the image is fully loaded.
             oContainerOffset = $container.offset();
-            nContainerWidth = $container.width();
-            nContainerHeight = $container.height();
-            nImageWidth = $image.innerWidth(); // Correct width with padding
-            nImageHeight = $image.innerHeight(); // Correct height with padding
-            nLensWidth = $lens.width();
-            nLensHeight = $lens.height();
+            nContainerWidth = oSettings.containerWidth || $container.width();
+            nContainerHeight = oSettings.containerHeight || $container.height();
+            nImageWidth = oSettings.imageWidth || $image.innerWidth(); // Correct width with padding
+            nImageHeight = oSettings.imageHeight || $image.innerHeight(); // Correct height with padding
+            nLensWidth = oSettings.lensWidth || $lens.width();
+            nLensHeight = oSettings.lensHeight || $lens.height();
             nMagnifiedWidth = elImage.width;
             nMagnifiedHeight = elImage.height;
             // Store dimensions for mobile plugin
