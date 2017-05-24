@@ -38,6 +38,16 @@
               $('html').removeClass('magnifying').trigger('magnifyend'); // Reset overflow-x
             });
           };
+
+        //Initialize some optional settings
+        oSettings.imageWidth = $image.attr('data-magnify-imageWidth') || oSettings.imageWidth || null;
+        oSettings.imageHeight = $image.attr('data-magnify-imageHeight') || oSettings.imageHeight || null;
+        oSettings.lensWidth = $image.attr('data-magnify-lensWidth') || oSettings.lensWidth || null;
+        oSettings.lensHeight = $image.attr('data-magnify-lensHeight') || oSettings.lensHeight || null;
+        oSettings.containerWidth = $image.attr('data-magnify-containerWidth') || oSettings.containerWidth || null;
+        oSettings.containerHeight = $image.attr('data-magnify-containerHeight') || oSettings.containerHeight || null;
+        oSettings.containerOffset = $image.attr('data-magnify-containerOffset') || oSettings.containerOffset || null;
+
         // Disable zooming if no valid zoom image source
         if (!sImgSrc) return;
 
@@ -78,15 +88,15 @@
             // NOTE: This code is inside the load() function, which is
             // important. The width and height of the object would return 0 if
             // accessed before the image is fully loaded.
-            oContainerOffset = $container.offset();
-            nContainerWidth = $container.width();
-            nContainerHeight = $container.height();
-            nImageWidth = $image.innerWidth(); // Correct width with padding
-            nImageHeight = $image.innerHeight(); // Correct height with padding
-            nLensWidth = $lens.width();
-            nLensHeight = $lens.height();
-            nMagnifiedWidth = elImage.width;
-            nMagnifiedHeight = elImage.height;
+            oContainerOffset = oSettings.containerOffset || $container.offset();
+            nContainerWidth = oSettings.containerWidth || $container.width();
+            nContainerHeight = oSettings.containerHeight || $container.height();
+            nImageWidth = oSettings.imageWidth || $image.innerWidth(); // Correct width with padding
+            nImageHeight = oSettings.imageHeight || $image.innerHeight(); // Correct height with padding
+            nLensWidth = oSettings.lensWidth || $lens.width();
+            nLensHeight = oSettings.lensHeight || $lens.height();
+            nMagnifiedWidth = oSettings.magnifiedWidth || elImage.width;
+            nMagnifiedHeight = oSettings.magnifiedHeight || elImage.height;
             // Store dimensions for mobile plugin
             $image.data('zoomSize', {
               width: nMagnifiedWidth,
