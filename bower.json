@@ -1,7 +1,7 @@
 {
   "name": "magnify",
-  "description": "A simple, lightweight jQuery magnifying glass zoom plugin.",
-  "version": "1.7.0",
+  "description": "A lightweight jQuery magnifying glass zoom plugin.",
+  "version": "2.0.0",
   "main": [
     "dist/css/magnify.css",
     "dist/js/jquery.magnify.js"
@@ -17,6 +17,7 @@
     "jquery plugin",
     "jquery magnify",
     "magnify",
+    "magnifying glass",
     "zoom"
   ],
   "authors": [

@@ -42,6 +42,8 @@ If the `data-magnify-src` attribute or `src` option is not used, then Magnify wi
 </a>
 ```
 
+NOTE: The large image needs to have the same aspect ratio as the main image.
+
 ### Step 3: Call the .magnify() function
 
 Make sure this comes after the two required JavaScript files from Step 1 are loaded.
@@ -69,22 +71,29 @@ $(document).ready(function() {
 
 ## Options
 
-Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to "data-magnify-" (e.g., `data-magnify-src="..."`).
+Options can be set in a JavaScript object when calling `.magnify()`.
 
-Name              | Type     | Default             | Description
------------       | -------- | -------             | -----------
-`speed`           | number   | 100                 | The fade-in/out animation speed in ms when the lens moves on/off the image.
-`src`             | string   | ''                  | The URI of the large image that will be shown in the magnifying lens.
-`timeout`         | number   | -1                  | The wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
-`afterLoad`       | function |                     | Callback function to execute after magnification is loaded.
-`imageHeight`     | number   | $image.innerHeight()| Override the measured image height
-`imageWidth`      | number   | $image.innerWidth() | Override the measured image width
-`lensHeight`      | number   | $lens.height()      | Override the actual lens height
-`lensWidth`       | number   | $lens.width()       | Override the actual lens width
-`containerHeight` | number   | $container.height() | Override the actual container height
-`containerWidth`  | number   | $container.width()  | Override the actual container width
-`containerOffset` | number   | $container.offset() | Override the actual container offset
+Name              | Type     | Default | Description
+-----------       | -------- | ------- | -----------
+`speed`           | number   | 100     | The fade-in/out animation speed in ms when the lens moves on/off the image.
+`src`             | string   | ''      | The URI of the large image that will be shown in the magnifying lens.
+`timeout`         | number   | -1      | The wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
+`afterLoad`       | function |         | Anonymous callback function to execute after magnification is loaded.
+`imageWidth`      | number   |         | Override the image width
+`imageHeight`     | number   |         | Override the image height
+`magnifiedWidth`  | number   |         | Override the large image width
+`magnifiedHeight` | number   |         | Override the large image height
 
+Options can also be set directly in the `<img>` tag by adding the following data attributes, which will take precedence over the corresponding options set using the object method:
+
+- `data-magnify-speed` - equivalent to `speed`
+- `data-magnify-src` - equivalent to `src`
+- `data-magnify-timeout` - equivalent to `timeout`
+- `data-magnify-afterload` - equivalent to `afterLoad`, except the value must be a declared function name
+- `data-magnify-imagewidth` - equivalent to `imageWidth`
+- `data-magnify-imageheight` - equivalent to `imageHeight`
+- `data-magnify-magnifiedwidth` - equivalent to `magnifiedWidth`
+- `data-magnify-magnifiedheight` - equivalent to `magnifiedHeight`
 
 ## Methods
 
@@ -120,7 +129,19 @@ $('html').on({
 });
 ```
 
-When in zoom mode, the `magnifying` class is also added to the `html` element, so you can change the style when zooming.
+When in zoom mode, the `magnifying` class is also added to the `<html>` tag, so you can change the style while zooming.
+
+## Lens Style
+
+The lens style can be altered by overriding `.magnify > .magnify-lens`, e.g.:
+
+```
+/* Shrink the lens to half size */
+.magnify > .magnify-lens {
+  width: 100px;
+  height: 100px;
+}
+```
 
 ## Installation
 
