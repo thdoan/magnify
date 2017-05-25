@@ -28,13 +28,13 @@ You have complete control over the style and size of the lens by modifying `magn
 
 ### Step 2: Specify the large image
 
-The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the `src` option when calling the `.magnify()` function.
+The URI to the large image can be placed in the `data-magnify-src` attribute as shown below, or passed as the `src` option when calling the `.magnify()` function (see [Options](#options)).
 
 ```
 <img src="/images/product.jpg" class="zoom" data-magnify-src="/images/product-large.jpg">
 ```
 
-If the `data-magnify-src` attribute or `src` option is not used, then Magnify will try to grab the large image from the parent `<a>` tag, e.g.:
+If the `data-magnify-src` attribute or `src` option is not used, then Magnify will try to grab the large image from the parent `<a>` tag. Example:
 
 ```
 <a href="/images/product-large.jpg">
@@ -71,7 +71,7 @@ $(document).ready(function() {
 
 ## Options
 
-Options can be set in a JavaScript object when calling `.magnify()`.
+The options below can be set in a JavaScript object when calling `.magnify()`.
 
 Name              | Type     | Default | Description
 -----------       | -------- | ------- | -----------
@@ -84,7 +84,7 @@ Name              | Type     | Default | Description
 `magnifiedWidth`  | number   |         | Override the large image width
 `magnifiedHeight` | number   |         | Override the large image height
 
-Options can also be set directly in the `<img>` tag by adding the following data attributes, which will take precedence over the corresponding options set using the object method:
+Options can also be set directly in the `<img>` tag by adding the following data attributes, which will take precedence over the corresponding options set inside an object:
 
 - `data-magnify-speed` - equivalent to `speed`
 - `data-magnify-src` - equivalent to `src`
@@ -97,7 +97,7 @@ Options can also be set directly in the `<img>` tag by adding the following data
 
 ## Methods
 
-To use a public method, you need to assign the element that you called `.magnify()` on to a variable. Sample usage:
+To use a public method, you need to assign the element that you called `.magnify()` on to a variable. Example:
 
 ```
 <script>
@@ -116,7 +116,7 @@ Name        | Description
 
 ## Events
 
-Magnify triggers two custom events on the `html` element: `magnifystart` when you enter zoom mode and `magnifyend` when you exit zoom mode. Sample usage:
+Magnify triggers two custom events on the `html` element: `magnifystart` when you enter zoom mode and `magnifyend` when you exit zoom mode. Example:
 
 ```
 $('html').on({
@@ -133,7 +133,7 @@ When in zoom mode, the `magnifying` class is also added to the `<html>` tag, so 
 
 ## Lens Style
 
-The lens style can be altered by overriding `.magnify > .magnify-lens`, e.g.:
+The lens style can be altered by overriding `.magnify > .magnify-lens`. Example:
 
 ```
 /* Shrink the lens to half size */
