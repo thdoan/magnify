@@ -99,6 +99,10 @@ Options can also be set directly in the `<img>` tag by adding the following data
 
 ## Methods
 
+Name        | Description
+----------- | -----------
+`destroy()` | Disable zoom and reset to the original state.
+
 To use a public method, you need to assign the element that you called `.magnify()` on to a variable. Example:
 
 ```
@@ -111,10 +115,6 @@ $(document).ready(function() {
 });
 </script>
 ```
-
-Name        | Description
------------ | -----------
-`destroy()` | Disable zoom and reset to the original state.
 
 ## Events
 
