@@ -8,9 +8,11 @@ If you don't use jQuery, then you can use [TrySound's vanilla JS version](https:
 
 **[See a demo with mobile plugin &raquo;](https://thdoan.github.io/magnify/demo-mobile.html)**
 
-**[See a demo with an image map &raquo;](https://thdoan.github.io/magnify/demo-map.html)**
-
 **[See a demo inside an accordion &raquo;](https://thdoan.github.io/magnify/demo-accordion.html)**
+
+**[See a demo with CSS animation &raquo;](https://thdoan.github.io/magnify/demo-animation.html)**
+
+**[See a demo with an image map &raquo;](https://thdoan.github.io/magnify/demo-map.html)**
 
 ## Getting Started
 
@@ -28,19 +30,21 @@ You have complete control over the style and size of the lens by modifying `magn
 
 ### Step 2: Specify the large image
 
-The URI to the large image can be placed in the `data-magnify-src` attribute (as shown below) or passed as the `src` option when calling the `.magnify()` function.
+The URI to the large image can be placed in the `data-magnify-src` attribute as shown below, or passed as the `src` option when calling the `.magnify()` function (see [Options](#options)).
 
 ```
 <img src="/images/product.jpg" class="zoom" data-magnify-src="/images/product-large.jpg">
 ```
 
-If the `data-magnify-src` attribute or `src` option is not used, then Magnify will try to grab the large image from the parent `<a>` tag, e.g.:
+If the `data-magnify-src` attribute or `src` option is not used, then Magnify will try to grab the large image from the parent `<a>` tag. Example:
 
 ```
 <a href="/images/product-large.jpg">
   <img src="/images/product.jpg" class="zoom">
 </a>
 ```
+
+NOTE: The large image needs to have the same aspect ratio as the main image.
 
 ### Step 3: Call the .magnify() function
 
@@ -69,18 +73,33 @@ $(document).ready(function() {
 
 ## Options
 
-Options can be set using data attributes or passed in an `options` JavaScript object when calling `.magnify()`. For data attributes, append the option name to "data-magnify-" (e.g., `data-magnify-src="..."`).
+The options below can be set in a JavaScript object when calling `.magnify()`.
 
-Name        | Type     | Default | Description
------------ | -------- | ------- | -----------
-`speed`     | number   | 100     | The fade-in/out animation speed in ms when the lens moves on/off the image.
-`src`       | string   | ''      | The URI of the large image that will be shown in the magnifying lens.
-`timeout`   | number   | -1      | The wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
-`afterLoad` | function |         | Callback function to execute after magnification is loaded.
+Name              | Type     | Default | Description
+-----------       | -------- | ------- | -----------
+`speed`           | number   | 100     | Fade-in/out animation speed in ms when the lens moves on/off the image.
+`src`             | string   | ''      | URI of the large image that will be shown in the magnifying lens.
+`timeout`         | number   | -1      | Wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
+`afterLoad`       | function |         | Anonymous callback function to execute after magnification is loaded.
+`finalWidth`      | number   |         | Width of the main image. Set this only if the image animates into view and has a different initial width. If the image doesn't animate, then you should set the image width in CSS or via the `width` attribute.
+`finalHeight`     | number   |         | Height of the main image. Set this only if the image animates into view and has a different initial height. If the image doesn't animate, then you should set the image height in CSS or via the `height` attribute.
+`magnifiedWidth`  | number   |         | Width of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native width.
+`magnifiedHeight` | number   |         | Height of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native height.
+
+Options can also be set directly in the `<img>` tag by adding the following data attributes, which will take precedence over the corresponding options set inside an object:
+
+- `data-magnify-speed` - equivalent to `speed`
+- `data-magnify-src` - equivalent to `src`
+- `data-magnify-timeout` - equivalent to `timeout`
+- `data-magnify-afterload` - equivalent to `afterLoad`, except the value must be a declared function name
+- `data-magnify-finalwidth` - equivalent to `finalWidth`
+- `data-magnify-finalheight` - equivalent to `finalHeight`
+- `data-magnify-magnifiedwidth` - equivalent to `magnifiedWidth`
+- `data-magnify-magnifiedheight` - equivalent to `magnifiedHeight`
 
 ## Methods
 
-To use a public method, you need to assign the element that you called `.magnify()` on to a variable. Sample usage:
+To use a public method, you need to assign the element that you called `.magnify()` on to a variable. Example:
 
 ```
 <script>
@@ -99,7 +118,7 @@ Name        | Description
 
 ## Events
 
-Magnify triggers two custom events on the `html` element: `magnifystart` when you enter zoom mode and `magnifyend` when you exit zoom mode. Sample usage:
+Magnify triggers two custom events on the `html` element: `magnifystart` when you enter zoom mode and `magnifyend` when you exit zoom mode. Example:
 
 ```
 $('html').on({
@@ -112,7 +131,19 @@ $('html').on({
 });
 ```
 
-When in zoom mode, the `magnifying` class is also added to the `html` element, so you can change the style when zooming.
+When in zoom mode, the `magnifying` class is also added to the `<html>` tag, so you can change the style while zooming.
+
+## Lens Style
+
+The lens style can be altered by overriding `.magnify > .magnify-lens`. Example:
+
+```
+/* Shrink the lens to half size */
+.magnify > .magnify-lens {
+  width: 100px;
+  height: 100px;
+}
+```
 
 ## Installation
 

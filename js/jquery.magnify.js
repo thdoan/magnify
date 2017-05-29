@@ -1,60 +1,95 @@
 /*!
- * jQuery Magnify Plugin v1.6.19 by T. H. Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v2.0.0 by T. H. Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by T. H. Doan is licensed under the MIT License.
- * Read a copy of the license in the LICENSE file or at
- * http://choosealicense.com/licenses/mit
+ * Read a copy of the license in the LICENSE file or at http://choosealicense.com/licenses/mit
  */
 
 (function($) {
   $.fn.magnify = function(oOptions) {
+    // Default options
+    oOptions = $.extend({
+      'speed': 100,
+      'src': '',
+      'timeout': -1,
+      'afterLoad': function(){},
+      'finalWidth': null,
+      'finalHeight': null,
+      'magnifiedWidth': null,
+      'magnifiedHeight': null
+    }, oOptions);
 
     var $that = this, // Preserve scope
-      oSettings = $.extend({
-        /* Default options */
-        speed: 100,
-        timeout: -1,
-        afterLoad: function(){}
-      }, oOptions),
+
+      // Initiate
       init = function(el) {
-        // Initiate
         var $image = $(el),
           $anchor = $image.closest('a'),
-          $container,
+          oDataAttr = {};
+
+        // Get data attributes
+        for (var i in oOptions) {
+          oDataAttr[i] = $image.attr('data-magnify-' + i.toLowerCase());
+        }
+
+        // Disable zooming if no valid large image source
+        var sZoomSrc = oDataAttr['src'] || oOptions['src'] || $anchor.attr('href') || '';
+        if (!sZoomSrc) return;
+
+        var $container,
           $lens,
-          oContainerOffset,
-          nContainerWidth,
-          nContainerHeight,
           nImageWidth,
           nImageHeight,
+          nMagnifiedWidth,
+          nMagnifiedHeight,
           nLensWidth,
           nLensHeight,
-          nMagnifiedWidth = 0,
-          nMagnifiedHeight = 0,
-          sImgSrc = $image.attr('data-magnify-src') || oSettings.src || $anchor.attr('href') || '',
+          oContainerOffset, // Relative to document
+          oImageOffset,     // Relative to container
+          // Get true offsets
+          getOffset = function() {
+            var o = $container.offset();
+            // Store offsets from container border to image inside
+            // NOTE: .offset() does NOT take into consideration image border and padding.
+            oImageOffset = {
+              'top': ($image.offset().top-o.top) + parseInt($image.css('border-top-width')) + parseInt($image.css('padding-top')),
+              'left': ($image.offset().left-o.left) + parseInt($image.css('border-left-width')) + parseInt($image.css('padding-left'))
+            };
+            o.top += oImageOffset['top'];
+            o.left += oImageOffset['left'];
+            return o;
+          },
+          // Hide the lens
           hideLens = function() {
-            if ($lens.is(':visible')) $lens.fadeOut(oSettings.speed, function() {
+            if ($lens.is(':visible')) $lens.fadeOut(oOptions['speed'], function() {
               $('html').removeClass('magnifying').trigger('magnifyend'); // Reset overflow-x
             });
           };
-        // Disable zooming if no valid zoom image source
-        if (!sImgSrc) return;
+
+        // Data attributes have precedence over options object
+        if (!isNaN(+oDataAttr['speed'])) oOptions['speed'] = +oDataAttr['speed'];
+        if (!isNaN(+oDataAttr['timeout'])) oOptions['timeout'] = +oDataAttr['timeout'];
+        if (typeof window[oDataAttr['afterLoad']]==='function') oOptions.afterLoad = window[oDataAttr['afterLoad']];
+        if (!isNaN(+oDataAttr['finalWidth'])) oOptions['finalWidth'] = +oDataAttr['finalWidth'];
+        if (!isNaN(+oDataAttr['finalHeight'])) oOptions['finalHeight'] = +oDataAttr['finalHeight'];
+        if (!isNaN(+oDataAttr['magnifiedWidth'])) oOptions['magnifiedWidth'] = +oDataAttr['magnifiedWidth'];
+        if (!isNaN(+oDataAttr['magnifiedHeight'])) oOptions['magnifiedHeight'] = +oDataAttr['magnifiedHeight'];
 
         // Save any inline styles for resetting
         $image.data('originalStyle', $image.attr('style'));
 
         // Activate magnification:
-        // 1. Try to get zoom image dimensions
-        // 2. Proceed only if able to get zoom image dimensions OK
+        // 1. Try to get large image dimensions
+        // 2. Proceed only if able to get large image dimensions OK
 
-        // [1] Calculate the native (magnified) image dimensions. The zoomed
-        // version is only shown after the native dimensions are available. To
-        // get the actual dimensions we have to create this image object.
-        var elImage = new Image();
-        $(elImage).on({
+        // [1] Calculate the native (magnified) image dimensions. The zoomed version is only shown
+        // after the native dimensions are available. To get the actual dimensions we have to create
+        // this image object.
+        var elZoomImage = new Image();
+        $(elZoomImage).on({
           load: function() {
-            // [2] Got image dimensions OK
+            // [2] Got image dimensions OK.
 
             var nX, nY;
 
@@ -67,58 +102,58 @@
             $container = $image.parent('.magnify');
             // Create the magnifying lens div if necessary
             if ($image.prev('.magnify-lens').length) {
-              $container.children('.magnify-lens').css('background-image', 'url(\'' + sImgSrc + '\')');
+              $container.children('.magnify-lens').css('background-image', 'url(\'' + sZoomSrc + '\')');
             } else {
-              $image.before('<div class="magnify-lens loading" style="background:url(\'' + sImgSrc + '\') no-repeat 0 0"></div>');
+              $image.before('<div class="magnify-lens loading" style="background:url(\'' + sZoomSrc + '\') 0 0 no-repeat"></div>');
             }
             $lens = $container.children('.magnify-lens');
             // Remove the "Loading..." text
             $lens.removeClass('loading');
-            // Cache offsets and dimensions for improved performance
-            // NOTE: This code is inside the load() function, which is
-            // important. The width and height of the object would return 0 if
-            // accessed before the image is fully loaded.
-            oContainerOffset = $container.offset();
-            nContainerWidth = $container.width();
-            nContainerHeight = $container.height();
-            nImageWidth = $image.innerWidth(); // Correct width with padding
-            nImageHeight = $image.innerHeight(); // Correct height with padding
+            // Cache dimensions and offsets for improved performance
+            // NOTE: This code is inside the load() function, which is important. The width and
+            // height of the object would return 0 if accessed before the image is fully loaded.
+            nImageWidth = oOptions['finalWidth'] || $image.width();
+            nImageHeight = oOptions['finalHeight'] || $image.height();
+            nMagnifiedWidth = oOptions['magnifiedWidth'] || elZoomImage.width;
+            nMagnifiedHeight = oOptions['magnifiedHeight'] || elZoomImage.height;
             nLensWidth = $lens.width();
             nLensHeight = $lens.height();
-            nMagnifiedWidth = elImage.width;
-            nMagnifiedHeight = elImage.height;
-            // Store dimensions for mobile plugin
+            oContainerOffset = getOffset(); // Required by refresh()
+            // Enforce non-native large image size?
+            if (nMagnifiedWidth!==elZoomImage.width || nMagnifiedHeight!==elZoomImage.height) {
+              $lens.css('background-size', nMagnifiedWidth + 'px ' + nMagnifiedHeight + 'px');
+            }
+            // Store zoom dimensions for mobile plugin
             $image.data('zoomSize', {
-              width: nMagnifiedWidth,
-              height: nMagnifiedHeight
+              'width': nMagnifiedWidth,
+              'height': nMagnifiedHeight
             });
             // Clean up
-            elImage = null;
+            elZoomImage = null;
             // Execute callback
-            oSettings.afterLoad();
+            oOptions.afterLoad();
             // Handle mouse movements
             $container.off().on({
               'mousemove touchmove': function(e) {
                 e.preventDefault();
                 // Reinitialize if image initially hidden
-                if (!nContainerHeight) {
+                if (!nImageHeight) {
                   refresh();
                   return;
                 }
-                // x/y coordinates of the mouse pointer or touch point
-                // This is the position of .magnify relative to the document.
+                // x/y coordinates of the mouse pointer or touch point. This is the position of
+                // .magnify relative to the document.
                 //
-                // We deduct the positions of .magnify from the mouse or touch
-                // positions relative to the document to get the mouse or touch
-                // positions relative to the container (.magnify).
-                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset.left,
-                nY = (e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset.top;
+                // We deduct the positions of .magnify from the mouse or touch positions relative to
+                // the document to get the mouse or touch positions relative to the container.
+                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset['left'],
+                nY = (e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset['top'];
                 // Toggle magnifying lens
                 if (!$lens.is(':animated')) {
-                  if (nX<nContainerWidth && nY<nContainerHeight && nX>0 && nY>0) {
+                  if (nX<nImageWidth && nY<nImageHeight && nX>0 && nY>0) {
                     if ($lens.is(':hidden')) {
                       $('html').addClass('magnifying').trigger('magnifystart'); // Hide overflow-x while zooming
-                      $lens.fadeIn(oSettings.speed);
+                      $lens.fadeIn(oOptions['speed']);
                     }
                   } else {
                     hideLens();
@@ -129,38 +164,36 @@
                   var nPosX = nX - nLensWidth/2,
                     nPosY = nY - nLensHeight/2;
                   if (nMagnifiedWidth && nMagnifiedHeight) {
-                    // Change the background position of .magnify-lens according
-                    // to the position of the mouse over the .magnify-image image.
-                    // This allows us to get the ratio of the pixel under the
-                    // mouse pointer with respect to the image and use that to
+                    // Change the background position of .magnify-lens according to the position of
+                    // the mouse over the .magnify-image image. This allows us to get the ratio of
+                    // the pixel under the mouse pointer with respect to the image and use that to
                     // position the large image inside the magnifying lens.
                     var nRatioX = Math.round(nX/nImageWidth*nMagnifiedWidth - nLensWidth/2)*-1,
                       nRatioY = Math.round(nY/nImageHeight*nMagnifiedHeight - nLensHeight/2)*-1,
                       sBgPos = nRatioX + 'px ' + nRatioY + 'px';
                   }
-                  // Now the lens moves with the mouse. The logic is to deduct
-                  // half of the lens's width and height from the mouse
-                  // coordinates to place it with its center at the mouse
-                  // coordinates. If you hover on the image now, you should see
-                  // the magnifying lens in action.
+                  // Now the lens moves with the mouse. The logic is to deduct half of the lens's
+                  // width and height from the mouse coordinates to place it with its center at the
+                  // mouse coordinates. If you hover on the image now, you should see the magnifying
+                  // lens in action.
                   $lens.css({
-                    top: Math.round(nPosY) + 'px',
-                    left: Math.round(nPosX) + 'px',
+                    top: Math.round(nPosY) + oImageOffset['top'] + 'px',
+                    left: Math.round(nPosX) + oImageOffset['left'] + 'px',
                     backgroundPosition: sBgPos || ''
                   });
                 }
               },
               'mouseenter': function() {
                 // Need to update offsets here to support accordions
-                oContainerOffset = $container.offset();
+                oContainerOffset = getOffset();
               },
               'mouseleave': hideLens
             });
 
             // Prevent magnifying lens from getting "stuck"
-            if (oSettings.timeout>=0) {
+            if (oOptions['timeout']>=0) {
               $container.on('touchend', function() {
-                setTimeout(hideLens, oSettings.timeout);
+                setTimeout(hideLens, oOptions['timeout']);
               });
             }
             // Ensure lens is closed when tapping outside of it
@@ -201,7 +234,7 @@
               // Make parent anchor inline-block to have correct dimensions
               $anchor.css('display', 'inline-block');
               // Disable parent anchor if it's sourcing the large image
-              if ($anchor.attr('href') && !($image.attr('data-magnify-src') || oSettings.src)) {
+              if ($anchor.attr('href') && !(oDataAttr['src'] || oOptions['src'])) {
                 $anchor.click(function(e) {
                   e.preventDefault();
                 });
@@ -211,23 +244,26 @@
           },
           error: function() {
             // Clean up
-            elImage = null;
+            elZoomImage = null;
           }
         });
 
-        elImage.src = sImgSrc;
-      },
+        elZoomImage.src = sZoomSrc;
+      }, // END init()
+
       // Simple debounce
       nTimer = 0,
       refresh = function() {
         clearTimeout(nTimer);
         nTimer = setTimeout(function() {
           $that.destroy();
-          $that.magnify(oSettings);
+          $that.magnify(oOptions);
         }, 100);
       };
 
-    /* Public methods */
+    /**
+     * Public Methods
+     */
 
     // Turn off zoom and reset to original state
     this.destroy = function() {
