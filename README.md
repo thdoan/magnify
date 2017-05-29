@@ -8,9 +8,11 @@ If you don't use jQuery, then you can use [TrySound's vanilla JS version](https:
 
 **[See a demo with mobile plugin &raquo;](https://thdoan.github.io/magnify/demo-mobile.html)**
 
-**[See a demo with an image map &raquo;](https://thdoan.github.io/magnify/demo-map.html)**
-
 **[See a demo inside an accordion &raquo;](https://thdoan.github.io/magnify/demo-accordion.html)**
+
+**[See a demo with CSS animation &raquo;](https://thdoan.github.io/magnify/demo-animation.html)**
+
+**[See a demo with an image map &raquo;](https://thdoan.github.io/magnify/demo-map.html)**
 
 ## Getting Started
 
@@ -75,14 +77,14 @@ The options below can be set in a JavaScript object when calling `.magnify()`.
 
 Name              | Type     | Default | Description
 -----------       | -------- | ------- | -----------
-`speed`           | number   | 100     | The fade-in/out animation speed in ms when the lens moves on/off the image.
-`src`             | string   | ''      | The URI of the large image that will be shown in the magnifying lens.
-`timeout`         | number   | -1      | The wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
+`speed`           | number   | 100     | Fade-in/out animation speed in ms when the lens moves on/off the image.
+`src`             | string   | ''      | URI of the large image that will be shown in the magnifying lens.
+`timeout`         | number   | -1      | Wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
 `afterLoad`       | function |         | Anonymous callback function to execute after magnification is loaded.
-`imageWidth`      | number   |         | Override the image width
-`imageHeight`     | number   |         | Override the image height
-`magnifiedWidth`  | number   |         | Override the large image width
-`magnifiedHeight` | number   |         | Override the large image height
+`finalWidth`      | number   |         | Width of the main image. Set this only if the image animates into view and has a different initial width. If the image doesn't animate, then you should set the image width in CSS or via the `width` attribute.
+`finalHeight`     | number   |         | Height of the main image. Set this only if the image animates into view and has a different initial height. If the image doesn't animate, then you should set the image height in CSS or via the `height` attribute.
+`magnifiedWidth`  | number   |         | Width of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native width.
+`magnifiedHeight` | number   |         | Height of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native height.
 
 Options can also be set directly in the `<img>` tag by adding the following data attributes, which will take precedence over the corresponding options set inside an object:
 
@@ -90,12 +92,16 @@ Options can also be set directly in the `<img>` tag by adding the following data
 - `data-magnify-src` - equivalent to `src`
 - `data-magnify-timeout` - equivalent to `timeout`
 - `data-magnify-afterload` - equivalent to `afterLoad`, except the value must be a declared function name
-- `data-magnify-imagewidth` - equivalent to `imageWidth`
-- `data-magnify-imageheight` - equivalent to `imageHeight`
+- `data-magnify-finalwidth` - equivalent to `finalWidth`
+- `data-magnify-finalheight` - equivalent to `finalHeight`
 - `data-magnify-magnifiedwidth` - equivalent to `magnifiedWidth`
 - `data-magnify-magnifiedheight` - equivalent to `magnifiedHeight`
 
 ## Methods
+
+Name        | Description
+----------- | -----------
+`destroy()` | Disable zoom and reset to the original state.
 
 To use a public method, you need to assign the element that you called `.magnify()` on to a variable. Example:
 
@@ -109,10 +115,6 @@ $(document).ready(function() {
 });
 </script>
 ```
-
-Name        | Description
------------ | -----------
-`destroy()` | Disable zoom and reset to the original state.
 
 ## Events
 
