@@ -63,7 +63,7 @@
         $magnifyMobile.toggle();
       });
       $magnify.children('img').on({
-        touchend: function() {
+        'touchend': function() {
           // Only execute on tap
           if ($(this).data('drag')) return;
           var oScrollOffset = $(this).data('scrollOffset');
@@ -72,11 +72,11 @@
           $lensMobile.scrollLeft(oScrollOffset.x);
           $lensMobile.scrollTop(oScrollOffset.y);
         },
-        touchmove: function() {
+        'touchmove': function() {
           // Set drag state
           $(this).data('drag', true);
         },
-        touchstart: function(e) {
+        'touchstart': function(e) {
           // Render zoom image
           // NOTE: In iOS background-image is url(...), not url("...").
           $lensMobile.html('<img src="' + $(this).prev('.magnify-lens').css('background-image').replace(/url\(["']?|["']?\)/g, '') + '" alt="">');
