@@ -69,6 +69,7 @@ p {
 }
 .magnify #example2 {
   animation: grow 2s forwards;
+  -webkit-backface-visibility: hidden; /* Remove jaggies */
 }
 </style>
 </head>
@@ -77,12 +78,12 @@ p {
 <p>This demo shows two ways to enable zoom for images that animate into view. It also demonstrates how to use the same image for both the main and zoom images, and how to override the lens style.</p>
 
 <div class="container">
-  <img id="example1" src="images/watch-large.jpg" alt="Sample image" data-magnify-src="images/watch-large.jpg">
+  <img id="example1" src="https://i.imgur.com/3HvNscO.png" alt="Sample image" data-magnify-src="https://i.imgur.com/3HvNscO.png">
   <figcaption>Method 1</figcaption>
 </div>
 
 <div class="container">
-  <img id="example2" src="images/watch-large.jpg" alt="Sample image" data-magnify-src="images/watch-large.jpg">
+  <img id="example2" src="https://i.imgur.com/3HvNscO.png" alt="Sample image" data-magnify-src="https://i.imgur.com/3HvNscO.png">
   <figcaption>Method 2</figcaption>
 </div>
 
@@ -104,8 +105,9 @@ $(document).ready(function() {
     // Animation ended! Initiating plugin...
     $image1.magnify({
       speed: 300,
-      magnifiedWidth: 400,
-      magnifiedHeight: 714
+      // Native size: 1228 x 1228
+      magnifiedWidth: 614,
+      magnifiedHeight: 614
     });
   });
 
@@ -114,9 +116,10 @@ $(document).ready(function() {
   $image2.magnify({
     speed: 300,
     finalWidth: 200,
-    finalHeight: 357,
-    magnifiedWidth: 400,
-    magnifiedHeight: 714
+    finalHeight: 200,
+    // Native size: 1228 x 1228
+    magnifiedWidth: 614,
+    magnifiedHeight: 614
   });
 });
 </script>
