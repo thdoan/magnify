@@ -57,7 +57,10 @@ $(document).ready(function() {
   // Initiating plugin...
   $('#example').magnify({
     speed: 300,
-    limitBounds: true
+    limitBounds: true,
+    afterLoad: function() {
+      console.log('Magnification powers activated!');
+    }
   });
 });
 </script>

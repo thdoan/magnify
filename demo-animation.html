@@ -105,9 +105,11 @@ $(document).ready(function() {
     // Animation ended! Initiating plugin...
     $image1.magnify({
       speed: 300,
-      // Native size: 1228 x 1228
-      magnifiedWidth: 614,
-      magnifiedHeight: 614
+      magnifiedWidth: 614,  // Native size:
+      magnifiedHeight: 614, // 1228 x 1228
+      afterLoad: function() {
+        console.log('Magnification powers activated for method 1!');
+      }
     });
   });
 
@@ -117,9 +119,11 @@ $(document).ready(function() {
     speed: 300,
     finalWidth: 200,
     finalHeight: 200,
-    // Native size: 1228 x 1228
-    magnifiedWidth: 614,
-    magnifiedHeight: 614
+    magnifiedWidth: 614,  // Native size:
+    magnifiedHeight: 614, // 1228 x 1228
+    afterLoad: function() {
+      console.log('Magnification powers activated for method 2!');
+    }
   });
 });
 </script>
