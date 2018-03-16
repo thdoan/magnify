@@ -30,6 +30,8 @@ If you don't use jQuery, then you can use [TrySound's vanilla JS version](https:
 
 You have complete control over the style and size of the lens by modifying `magnify.css`. Magnify has support for touch devices, but for a better zoom experience you can load the optional mobile plugin by uncommenting the last line above. It is recommended to load the JavaScript files at the bottom just before the closing `</body>` tag if possible.
 
+**UPDATE:** You can now load Magnify from [CDNJS](https://cdnjs.com/libraries/magnify).
+
 ### Step 2: Specify the large image
 
 The URI to the large image can be placed in the `data-magnify-src` attribute as shown below, or passed as the `src` option when calling the `.magnify()` function (see [Options](#options)).
