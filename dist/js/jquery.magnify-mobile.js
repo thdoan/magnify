@@ -58,8 +58,8 @@
       // NOTE: Fixed elements inside a scrolling div have issues in iOS, so we need to insert the
       // close icon at the same level as the lens.
       $magnifyMobile.hide().append('<i class="close">&times;</i>');
-      // Hook up event handlers
-      $magnifyMobile.children('.close').on('touchstart', function() {
+      // Hook up event handlers, using value of 'data-magnify-mobile-close-event' if provided
+      $magnifyMobile.children('.close').on( $("html").attr('data-magnify-mobile-close-event') || 'touchstart', function() {
         $magnifyMobile.toggle();
       });
       $magnify.children('img').on({
