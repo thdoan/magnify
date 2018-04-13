@@ -17,6 +17,7 @@
       'finalHeight': null,
       'magnifiedWidth': null,
       'magnifiedHeight': null,
+      'touchBottom': true,
       'limitBounds': false,
       'afterLoad': function(){}
     }, oOptions);
@@ -178,7 +179,7 @@
                         return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
                     }
                 };
-                if(isMobile.any()) {
+                if(isMobile.any() && oOptions.touchBottom === true) {
                     nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset['left'],
                     nY = ((e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset['top']) -90;
                 } else {
