@@ -1,9 +1,9 @@
 /*!
- * jQuery Magnify Plugin v2.2.0 by T. H. Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v2.3.0 by T. H. Doan (https://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by T. H. Doan is licensed under the MIT License.
- * Read a copy of the license in the LICENSE file or at http://choosealicense.com/licenses/mit
+ * Read a copy of the license in the LICENSE file or at https://choosealicense.com/licenses/mit/
  */
 
 (function($) {
@@ -13,6 +13,7 @@
       'src': '',
       'speed': 100,
       'timeout': -1,
+      'touchBottomOffset': 0,
       'finalWidth': null,
       'finalHeight': null,
       'magnifiedWidth': null,
@@ -81,6 +82,13 @@
         if (!isNaN(+oDataAttr['magnifiedHeight'])) oOptions['magnifiedHeight'] = +oDataAttr['magnifiedHeight'];
         if (oDataAttr['limitBounds']==='true') oOptions['limitBounds'] = true;
         if (typeof window[oDataAttr['afterLoad']]==='function') oOptions.afterLoad = window[oDataAttr['afterLoad']];
+
+        // Implement touch point bottom offset only on mobile devices
+        if (/\b(Android|BlackBerry|IEMobile|iPad|iPhone|Mobile|Opera Mini)\b/.test(navigator.userAgent)) {
+          if (!isNaN(+oDataAttr['touchBottomOffset'])) oOptions['touchBottomOffset'] = +oDataAttr['touchBottomOffset'];
+        } else {
+          oOptions['touchBottomOffset'] = 0;
+        }
 
         // Save any inline styles for resetting
         $image.data('originalStyle', $image.attr('style'));
@@ -160,7 +168,7 @@
                 // We deduct the positions of .magnify from the mouse or touch positions relative to
                 // the document to get the mouse or touch positions relative to the container.
                 nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset['left'],
-                nY = (e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset['top'];
+                nY = ((e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset['top']) - oOptions['touchBottomOffset'];
                 // Toggle magnifying lens
                 if (!$lens.is(':animated')) {
                   if (nX>nBoundX && nX<nImageWidth-nBoundX && nY>nBoundY && nY<nImageHeight-nBoundY) {
