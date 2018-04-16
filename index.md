@@ -34,7 +34,7 @@ You have complete control over the style and size of the lens by modifying `magn
 
 ### Step 2: Specify the large image
 
-The URI to the large image can be placed in the `data-magnify-src` attribute as shown below, or passed as the `src` option when calling the `.magnify()` function (see [Options](#options)).
+The URI to the large image can be placed in the `data-magnify-src` attribute as shown below, or passed as the `src` option when calling the `.magnify()` function(see [Options](#options)).
 
 ```
 <img src="/images/product.jpg" class="zoom" data-magnify-src="/images/product-large.jpg">
@@ -79,17 +79,18 @@ $(document).ready(function() {
 
 The options below can be set in a JavaScript object when calling `.magnify()`.
 
-Name              | Type     | Default | Description
------------       | -------- | ------- | -----------
-`src`             | string   | ''      | URI of the large image that will be shown in the magnifying lens.
-`speed`           | number   | 100     | Fade-in/out animation speed in ms when the lens moves on/off the image.
-`timeout`         | number   | -1      | Wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
-`finalWidth`      | number   |         | Width of the main image. Set this only if the image animates into view and has a different initial width. If the image doesn't animate, then you should set the image width in CSS or via the `width` attribute.
-`finalHeight`     | number   |         | Height of the main image. Set this only if the image animates into view and has a different initial height. If the image doesn't animate, then you should set the image height in CSS or via the `height` attribute.
-`magnifiedWidth`  | number   |         | Width of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native width.
-`magnifiedHeight` | number   |         | Height of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native height.
-`limitBounds`     | boolean  | false   | Set this to `true` to keep the edge of the image within the magnifying lens.
-`afterLoad`       | function |         | Anonymous callback function to execute after magnification is loaded.
+Name               | Type     | Default      | Description
+------------------ | -------- | ------------ | -----------
+`src`              | string   | ''           | URI of the large image that will be shown in the magnifying lens.
+`speed`            | number   | 100          | Fade-in/out animation speed in ms when the lens moves on/off the image.
+`timeout`          | number   | -1           | Wait period in ms before hiding the magnifying lens on touch devices. Set to `-1` to disable.
+`finalWidth`       | number   |              | Width of the main image. Set this only if the image animates into view and has a different initial width. If the image doesn't animate, then you should set the image width in CSS or via the `width` attribute.
+`finalHeight`      | number   |              | Height of the main image. Set this only if the image animates into view and has a different initial height. If the image doesn't animate, then you should set the image height in CSS or via the `height` attribute.
+`magnifiedWidth`   | number   |              | Width of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native width.
+`magnifiedHeight`  | number   |              | Height of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native height.
+`limitBounds`      | boolean  | false        | Set this to `true` to keep the edge of the image within the magnifying lens.
+`mobileCloseEvent` | string   | 'touchstart' | Custom event to fire when you tap on the mobile close button. Set this to `'click'` or `'touchend'` if it's conflicting with another event handler. This option is only applicable when the mobile plugin (jquery.magnify-mobile.js) is used.
+`afterLoad`        | function |              | Anonymous callback function to execute after magnification is loaded.
 
 Options can also be set directly in the `<img>` tag by adding the following data attributes, which will take precedence over the corresponding options set inside an object:
 
@@ -101,6 +102,7 @@ Options can also be set directly in the `<img>` tag by adding the following data
 - `data-magnify-magnifiedwidth` - equivalent to `magnifiedWidth`
 - `data-magnify-magnifiedheight` - equivalent to `magnifiedHeight`
 - `data-magnify-limitbounds` - equivalent to `limitBounds`
+- `data-magnify-mobilecloseevent` - equivalent to `mobileCloseEvent`
 - `data-magnify-afterload` - equivalent to `afterLoad`, except the value must be a declared function name
 
 ## Methods

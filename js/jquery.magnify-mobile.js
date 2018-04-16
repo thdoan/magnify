@@ -59,7 +59,7 @@
       // close icon at the same level as the lens.
       $magnifyMobile.hide().append('<i class="close">&times;</i>');
       // Hook up event handlers
-      $magnifyMobile.children('.close').on('touchstart', function() {
+      $magnifyMobile.children('.close').on($magnify.data('mobileCloseEvent'), function() {
         $magnifyMobile.toggle();
       });
       $magnify.children('img').on({
