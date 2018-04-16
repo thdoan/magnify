@@ -89,6 +89,7 @@ Name              | Type     | Default | Description
 `magnifiedWidth`  | number   |         | Width of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native width.
 `magnifiedHeight` | number   |         | Height of the image displayed inside the magnifying lens. Set this only if you want to override the large image's native height.
 `limitBounds`     | boolean  | false   | Set this to `true` to keep the edge of the image within the magnifying lens.
+`mobileCloseEvent`| string   | null    | Add a custom event name for the mobile close button. If none provided will use "touchstart".
 `afterLoad`       | function |         | Anonymous callback function to execute after magnification is loaded.
 
 Options can also be set directly in the `<img>` tag by adding the following data attributes, which will take precedence over the corresponding options set inside an object:

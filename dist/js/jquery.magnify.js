@@ -18,6 +18,7 @@
       'magnifiedWidth': null,
       'magnifiedHeight': null,
       'limitBounds': false,
+      'mobileCloseEvent': null, // will use "touchstart" if not specified
       'afterLoad': function(){}
     }, oOptions);
 
@@ -138,6 +139,10 @@
               'width': nMagnifiedWidth,
               'height': nMagnifiedHeight
             });
+            // Store preferred mobile close event if provided
+            if(oOptions.mobileCloseEvent) {
+              $("html").attr('data-magnify-mobile-close-event', oOptions.mobileCloseEvent);
+            }
             // Clean up
             elZoomImage = null;
             // Execute callback
