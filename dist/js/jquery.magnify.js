@@ -13,11 +13,11 @@
       'src': '',
       'speed': 100,
       'timeout': -1,
+      'touchBottomOffset': 0,
       'finalWidth': null,
       'finalHeight': null,
       'magnifiedWidth': null,
       'magnifiedHeight': null,
-      'touchBottom': true,
       'limitBounds': false,
       'mobileCloseEvent': 'touchstart',
       'afterLoad': function(){}
@@ -82,6 +82,13 @@
         if (!isNaN(+oDataAttr['magnifiedHeight'])) oOptions['magnifiedHeight'] = +oDataAttr['magnifiedHeight'];
         if (oDataAttr['limitBounds']==='true') oOptions['limitBounds'] = true;
         if (typeof window[oDataAttr['afterLoad']]==='function') oOptions.afterLoad = window[oDataAttr['afterLoad']];
+
+        // Implement touch point bottom offset only on mobile devices
+        if (/\b(Android|BlackBerry|IEMobile|iPad|iPhone|Mobile|Opera Mini)\b/.test(navigator.userAgent)) {
+          if (!isNaN(+oDataAttr['touchBottomOffset'])) oOptions['touchBottomOffset'] = +oDataAttr['touchBottomOffset'];
+        } else {
+          oOptions['touchBottomOffset'] = 0;
+        }
 
         // Save any inline styles for resetting
         $image.data('originalStyle', $image.attr('style'));
@@ -160,35 +167,8 @@
                 //
                 // We deduct the positions of .magnify from the mouse or touch positions relative to
                 // the document to get the mouse or touch positions relative to the container.
-
-                // Mobile only offset touch point to be at the bottom not on the center
-                var isMobile = {
-                    Android: function() {
-                        return navigator.userAgent.match(/Android/i);
-                    },
-                    BlackBerry: function() {
-                        return navigator.userAgent.match(/BlackBerry/i);
-                    },
-                    iOS: function() {
-                        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-                    },
-                    Opera: function() {
-                        return navigator.userAgent.match(/Opera Mini/i);
-                    },
-                    Windows: function() {
-                        return navigator.userAgent.match(/IEMobile/i);
-                    },
-                    any: function() {
-                        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-                    }
-                };
-                if(isMobile.any() && oOptions.touchBottom === true) {
-                    nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset['left'],
-                    nY = ((e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset['top']) -90;
-                } else {
-                  nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset['left'],
-                  nY = (e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset['top'];
-                }
+                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset['left'],
+                nY = ((e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset['top']) - oOptions['touchBottomOffset'];
                 // Toggle magnifying lens
                 if (!$lens.is(':animated')) {
                   if (nX>nBoundX && nX<nImageWidth-nBoundX && nY>nBoundY && nY<nImageHeight-nBoundY) {
