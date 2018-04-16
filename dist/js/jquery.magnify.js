@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v2.1.0 by T. H. Doan (http://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v2.2.0 by T. H. Doan (http://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by T. H. Doan is licensed under the MIT License.
@@ -18,7 +18,7 @@
       'magnifiedWidth': null,
       'magnifiedHeight': null,
       'limitBounds': false,
-      'mobileCloseEvent': null, // will use "touchstart" if not specified
+      'mobileCloseEvent': 'touchstart',
       'afterLoad': function(){}
     }, oOptions);
 
@@ -139,10 +139,8 @@
               'width': nMagnifiedWidth,
               'height': nMagnifiedHeight
             });
-            // Store preferred mobile close event if provided
-            if(oOptions.mobileCloseEvent) {
-              $("html").attr('data-magnify-mobile-close-event', oOptions.mobileCloseEvent);
-            }
+            // Store mobile close event for mobile plugin
+            $container.data('mobileCloseEvent', oDataAttr['mobileCloseEvent'] || oOptions['mobileCloseEvent']);
             // Clean up
             elZoomImage = null;
             // Execute callback
