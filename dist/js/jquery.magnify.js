@@ -73,19 +73,32 @@
             });
           },
           moveLens = function(e) {
-            e.preventDefault();
             // Reinitialize if image initially hidden
             if (!nImageHeight) {
               refresh();
               return;
+            }
+            if (e) {
+              e.preventDefault();
+              // Save last coordinates in case we need to call this function directly (required when
+              // updating magnifiedWidth/magnifiedHeight while the lens is visible).
+              nPosX = e.pageX || e.originalEvent.touches[0].pageX;
+              nPosY = e.pageY || e.originalEvent.touches[0].pageY;
+              $image.data('lastPos', {
+                'x': nPosX,
+                'y': nPosY
+              });
+            } else {
+              nPosX = $image.data('lastPos').x;
+              nPosY = $image.data('lastPos').y;
             }
             // x/y coordinates of the mouse pointer or touch point. This is the position of
             // .magnify relative to the document.
             //
             // We deduct the positions of .magnify from the mouse or touch positions relative to
             // the document to get the mouse or touch positions relative to the container.
-            nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset['left'],
-            nY = ((e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset['top']) - oOptions['touchBottomOffset'];
+            nX = nPosX - oContainerOffset['left'],
+            nY = (nPosY - oContainerOffset['top']) - oOptions['touchBottomOffset'];
             // Toggle magnifying lens
             if (!$lens.is(':animated')) {
               if (nX>nBoundX && nX<nImageWidth-nBoundX && nY>nBoundY && nY<nImageHeight-nBoundY) {
@@ -164,7 +177,7 @@
           'load': function() {
             // [2] Got image dimensions OK.
 
-            var nX, nY;
+            var nPosX, nPosY, nX, nY;
 
             // Fix overlap bug at the edges during magnification
             $image.css('display', 'block');
@@ -212,6 +225,9 @@
             elZoomImage = null;
             // Execute callback
             oOptions.afterLoad();
+            // Simulate a lens move to update positioning if magnifiedWidth/magnifiedHeight is
+            // updated while the lens is visible
+            if ($lens.is(':visible')) moveLens();
             // Handle mouse movements
             $container.off().on({
               'mousemove touchmove': moveLens,
