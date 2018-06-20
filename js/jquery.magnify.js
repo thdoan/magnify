@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v2.3.0 by T. H. Doan (https://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v2.3.2 by T. H. Doan (https://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by T. H. Doan is licensed under the MIT License.
@@ -71,6 +71,78 @@
             if ($lens.is(':visible')) $lens.fadeOut(oOptions['speed'], function() {
               $html.removeClass('magnifying').trigger('magnifyend'); // Reset overflow-x
             });
+          },
+          moveLens = function(e) {
+            // Reinitialize if image initially hidden
+            if (!nImageHeight) {
+              refresh();
+              return;
+            }
+            if (e) {
+              e.preventDefault();
+              // Save last coordinates in case we need to call this function directly (required when
+              // updating magnifiedWidth/magnifiedHeight while the lens is visible).
+              nPosX = e.pageX || e.originalEvent.touches[0].pageX;
+              nPosY = e.pageY || e.originalEvent.touches[0].pageY;
+              $image.data('lastPos', {
+                'x': nPosX,
+                'y': nPosY
+              });
+            } else {
+              nPosX = $image.data('lastPos').x;
+              nPosY = $image.data('lastPos').y;
+            }
+            // x/y coordinates of the mouse pointer or touch point. This is the position of
+            // .magnify relative to the document.
+            //
+            // We deduct the positions of .magnify from the mouse or touch positions relative to
+            // the document to get the mouse or touch positions relative to the container.
+            nX = nPosX - oContainerOffset['left'],
+            nY = (nPosY - oContainerOffset['top']) - oOptions['touchBottomOffset'];
+            // Toggle magnifying lens
+            if (!$lens.is(':animated')) {
+              if (nX>nBoundX && nX<nImageWidth-nBoundX && nY>nBoundY && nY<nImageHeight-nBoundY) {
+                if ($lens.is(':hidden')) {
+                  $html.addClass('magnifying').trigger('magnifystart'); // Hide overflow-x while zooming
+                  $lens.fadeIn(oOptions['speed']);
+                }
+              } else {
+                hideLens();
+              }
+            }
+            if ($lens.is(':visible')) {
+              // Move the magnifying lens with the mouse
+              var sBgPos = '';
+              if (nMagnifiedWidth && nMagnifiedHeight) {
+                // Change the background position of .magnify-lens according to the position of
+                // the mouse over the .magnify-image image. This allows us to get the ratio of
+                // the pixel under the mouse pointer with respect to the image and use that to
+                // position the large image inside the magnifying lens.
+                var nRatioX = -Math.round(nX/nImageWidth*nMagnifiedWidth-nLensWidth/2),
+                  nRatioY = -Math.round(nY/nImageHeight*nMagnifiedHeight-nLensHeight/2);
+                if (oOptions['limitBounds']) {
+                  // Enforce bounds to ensure only image is visible in lens
+                  var nBoundRight = -Math.round((nImageWidth-nBoundX)/nImageWidth*nMagnifiedWidth-nLensWidth/2),
+                    nBoundBottom = -Math.round((nImageHeight-nBoundY)/nImageHeight*nMagnifiedHeight-nLensHeight/2);
+                  // Left and right edges
+                  if (nRatioX>0) nRatioX = 0;
+                  else if (nRatioX<nBoundRight) nRatioX = nBoundRight;
+                  // Top and bottom edges
+                  if (nRatioY>0) nRatioY = 0;
+                  else if (nRatioY<nBoundBottom) nRatioY = nBoundBottom;
+                }
+                sBgPos = nRatioX + 'px ' + nRatioY + 'px';
+              }
+              // Now the lens moves with the mouse. The logic is to deduct half of the lens's
+              // width and height from the mouse coordinates to place it with its center at the
+              // mouse coordinates. If you hover on the image now, you should see the magnifying
+              // lens in action.
+              $lens.css({
+                'top': Math.round(nY-nLensHeight/2) + oImageOffset['top'] + 'px',
+                'left': Math.round(nX-nLensWidth/2) + oImageOffset['left'] + 'px',
+                'background-position': sBgPos
+              });
+            }
           };
 
         // Data attributes have precedence over options object
@@ -105,7 +177,7 @@
           'load': function() {
             // [2] Got image dimensions OK.
 
-            var nX, nY;
+            var nPosX, nPosY, nX, nY;
 
             // Fix overlap bug at the edges during magnification
             $image.css('display', 'block');
@@ -153,67 +225,12 @@
             elZoomImage = null;
             // Execute callback
             oOptions.afterLoad();
+            // Simulate a lens move to update positioning if magnifiedWidth/magnifiedHeight is
+            // updated while the lens is visible
+            if ($lens.is(':visible')) moveLens();
             // Handle mouse movements
             $container.off().on({
-              'mousemove touchmove': function(e) {
-                e.preventDefault();
-                // Reinitialize if image initially hidden
-                if (!nImageHeight) {
-                  refresh();
-                  return;
-                }
-                // x/y coordinates of the mouse pointer or touch point. This is the position of
-                // .magnify relative to the document.
-                //
-                // We deduct the positions of .magnify from the mouse or touch positions relative to
-                // the document to get the mouse or touch positions relative to the container.
-                nX = (e.pageX || e.originalEvent.touches[0].pageX) - oContainerOffset['left'],
-                nY = ((e.pageY || e.originalEvent.touches[0].pageY) - oContainerOffset['top']) - oOptions['touchBottomOffset'];
-                // Toggle magnifying lens
-                if (!$lens.is(':animated')) {
-                  if (nX>nBoundX && nX<nImageWidth-nBoundX && nY>nBoundY && nY<nImageHeight-nBoundY) {
-                    if ($lens.is(':hidden')) {
-                      $html.addClass('magnifying').trigger('magnifystart'); // Hide overflow-x while zooming
-                      $lens.fadeIn(oOptions['speed']);
-                    }
-                  } else {
-                    hideLens();
-                  }
-                }
-                if ($lens.is(':visible')) {
-                  // Move the magnifying lens with the mouse
-                  var sBgPos = '';
-                  if (nMagnifiedWidth && nMagnifiedHeight) {
-                    // Change the background position of .magnify-lens according to the position of
-                    // the mouse over the .magnify-image image. This allows us to get the ratio of
-                    // the pixel under the mouse pointer with respect to the image and use that to
-                    // position the large image inside the magnifying lens.
-                    var nRatioX = -Math.round(nX/nImageWidth*nMagnifiedWidth-nLensWidth/2),
-                      nRatioY = -Math.round(nY/nImageHeight*nMagnifiedHeight-nLensHeight/2);
-                    if (oOptions['limitBounds']) {
-                      // Enforce bounds to ensure only image is visible in lens
-                      var nBoundRight = -Math.round((nImageWidth-nBoundX)/nImageWidth*nMagnifiedWidth-nLensWidth/2),
-                        nBoundBottom = -Math.round((nImageHeight-nBoundY)/nImageHeight*nMagnifiedHeight-nLensHeight/2);
-                      // Left and right edges
-                      if (nRatioX>0) nRatioX = 0;
-                      else if (nRatioX<nBoundRight) nRatioX = nBoundRight;
-                      // Top and bottom edges
-                      if (nRatioY>0) nRatioY = 0;
-                      else if (nRatioY<nBoundBottom) nRatioY = nBoundBottom;
-                    }
-                    sBgPos = nRatioX + 'px ' + nRatioY + 'px';
-                  }
-                  // Now the lens moves with the mouse. The logic is to deduct half of the lens's
-                  // width and height from the mouse coordinates to place it with its center at the
-                  // mouse coordinates. If you hover on the image now, you should see the magnifying
-                  // lens in action.
-                  $lens.css({
-                    'top': Math.round(nY-nLensHeight/2) + oImageOffset['top'] + 'px',
-                    'left': Math.round(nX-nLensWidth/2) + oImageOffset['left'] + 'px',
-                    'background-position': sBgPos
-                  });
-                }
-              },
+              'mousemove touchmove': moveLens,
               'mouseenter': function() {
                 // Need to update offsets here to support accordions
                 oContainerOffset = getOffset();
