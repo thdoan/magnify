@@ -1,5 +1,5 @@
 /*!
- * jQuery Magnify Plugin v2.3.2 by T. H. Doan (https://thdoan.github.io/magnify/)
+ * jQuery Magnify Plugin v2.3.3 by T. H. Doan (https://thdoan.github.io/magnify/)
  * Based on http://thecodeplayer.com/walkthrough/magnifying-glass-for-images-using-jquery-and-css3
  *
  * jQuery Magnify by T. H. Doan is licensed under the MIT License.
@@ -51,6 +51,8 @@
           nLensHeight,
           nBoundX = 0,
           nBoundY = 0,
+          nPosX, nPosY,     // Absolute cursor position
+          nX, nY,           // Relative cursor position
           oContainerOffset, // Relative to document
           oImageOffset,     // Relative to container
           // Get true offsets
@@ -176,8 +178,6 @@
         $(elZoomImage).on({
           'load': function() {
             // [2] Got image dimensions OK.
-
-            var nPosX, nPosY, nX, nY;
 
             // Fix overlap bug at the edges during magnification
             $image.css('display', 'block');
