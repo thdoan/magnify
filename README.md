@@ -20,7 +20,7 @@ If you don't use jQuery, then you can use [TrySound's vanilla JS version](https:
 
 ### Step 1: Link the required files
 
-```
+```javascript
 <link rel="stylesheet" href="/css/magnify.css">
 <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="/js/jquery.magnify.js"></script>
@@ -36,13 +36,13 @@ You have complete control over the style and size of the lens by modifying `magn
 
 The URI to the large image can be placed in the `data-magnify-src` attribute as shown below, or passed as the `src` option when calling the `.magnify()` function(see [Options](#options)).
 
-```
+```html
 <img src="/images/product.jpg" class="zoom" data-magnify-src="/images/product-large.jpg">
 ```
 
 If the `data-magnify-src` attribute or `src` option is not used, then Magnify will try to grab the large image from the parent `<a>` tag. Example:
 
-```
+```html
 <a href="/images/product-large.jpg">
   <img src="/images/product.jpg" class="zoom">
 </a>
@@ -54,7 +54,7 @@ NOTE: The large image needs to have the same aspect ratio as the main image.
 
 Make sure this comes after the two required JavaScript files from Step 1 are loaded.
 
-```
+```javascript
 <script>
 $(document).ready(function() {
   $('.zoom').magnify();
@@ -64,7 +64,7 @@ $(document).ready(function() {
 
 Calling the `.magnify()` function with options:
 
-```
+```javascript
 <script>
 $(document).ready(function() {
   $('.zoom').magnify({
@@ -115,7 +115,7 @@ Name        | Description
 
 To use a public method, you need to assign the element that you called `.magnify()` on to a variable. Example:
 
-```
+```javascript
 <script>
 $(document).ready(function() {
   // Enable zoom
@@ -130,7 +130,7 @@ $(document).ready(function() {
 
 Magnify triggers two custom events on the `html` element: `magnifystart` when you enter zoom mode and `magnifyend` when you exit zoom mode. Example:
 
-```
+```javascript
 $('html').on({
   magnifystart: function() {
     console.log('magnifystart event fired');
@@ -147,7 +147,7 @@ When in zoom mode, the `magnifying` class is also added to the `<html>` tag, so 
 
 The lens style can be altered by overriding `.magnify > .magnify-lens`. Example:
 
-```
+```css
 /* Shrink the lens to half size */
 .magnify > .magnify-lens {
   width: 100px;
